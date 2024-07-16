@@ -60,5 +60,52 @@ namespace FoodMania.Controllers
             return View(cRU_UserTypeMV);
         }
 
+        public ActionResult List_Genders(int? id)
+        {
+            var gender = new CRU_GenderMV(id);
+            return View(gender);
+        }
+
+        [HttpPost]
+        public ActionResult List_Genders(CRU_GenderMV cRU_GenderMV)
+        {
+            if (ModelState.IsValid)
+            {
+                if (cRU_GenderMV.GenderID == 0)
+                {
+                    var checkexist = Db.GenderTables.Where(g => g.GenderTittle == cRU_GenderMV.GenderTitle).FirstOrDefault();
+                    if (checkexist == null)
+                    {
+                        var gender = new GenderTable();
+                        gender.GenderTittle = cRU_GenderMV.GenderTitle;
+                        Db.GenderTables.Add(gender);
+                        Db.SaveChanges();
+                        return RedirectToAction("List_Genders", new { id = 0 });
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("GenderTitle", "All Ready Exist!");
+                    }
+                }
+                else
+                {
+                    var checkexist = Db.GenderTables.Where(g => g.GenderTittle == cRU_GenderMV.GenderTitle && g.GenderID != cRU_GenderMV.GenderID).FirstOrDefault();
+                    if (checkexist == null)
+                    {
+                        var editgender = Db.GenderTables.Find(cRU_GenderMV.GenderID);
+                        editgender.GenderTittle = cRU_GenderMV.GenderTitle;
+                        Db.Entry(editgender).State = System.Data.Entity.EntityState.Modified;
+                        Db.SaveChanges();
+                        return RedirectToAction("List_Genders", new { id = 0 });
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("GenderTitle", "All Ready Exist!");
+                    }
+                }
+            }
+            return View(cRU_GenderMV);
+        }
+
     }
 }

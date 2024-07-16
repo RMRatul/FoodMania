@@ -33,7 +33,7 @@ namespace FoodMania.Controllers
                         usertype.UserType = cRU_UserTypeMV.UserType;
                         Db.UserTypeTables.Add(usertype);
                         Db.SaveChanges();
-                        return RedirectToAction(" List_UserTypes", new { id = 0 });
+                        return RedirectToAction("List_UserTypes", new { id = 0 });
                     }
                     else
                     {
@@ -49,7 +49,7 @@ namespace FoodMania.Controllers
                         usertype.UserType = cRU_UserTypeMV.UserType;
                         Db.Entry(usertype).State = System.Data.Entity.EntityState.Modified;
                         Db.SaveChanges();
-                        return RedirectToAction(" List_UserTypes", new { id = 0 });
+                        return RedirectToAction("List_UserTypes", new { id = 0 });
                     }
                     else
                     {

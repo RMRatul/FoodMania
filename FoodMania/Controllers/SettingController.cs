@@ -161,5 +161,58 @@ namespace FoodMania.Controllers
             return View(cRU_UserStatusMV);
         }
 
+        public ActionResult List_VisibleStatus(int? id)
+        {
+            var status = new CRU_VisibleStatusMV(id);
+            return View(status);
+        }
+
+        [HttpPost]
+        public ActionResult List_VisibleStatus(CRU_VisibleStatusMV cRU_VisibleStatusMV)
+        {
+            if (ModelState.IsValid)
+            {
+                if (cRU_VisibleStatusMV.VisibleStatusID == 0)
+                {
+                    var checkexist = Db.VisibleStatusTables.Where(s => s.VisibleStatus.ToUpper() == cRU_VisibleStatusMV.VisibleStatus.ToUpper()).FirstOrDefault();
+                    if (checkexist == null)
+                    {
+                        var status = new VisibleStatusTable();
+                        status.VisibleStatus = cRU_VisibleStatusMV.VisibleStatus;
+                        Db.VisibleStatusTables.Add(status);
+                        Db.SaveChanges();
+                        return RedirectToAction("List_VisibleStatus", new { id = 0 });
+
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("VisibleStatus", "Field Required*");
+                    }
+                }
+                else
+                {
+                    var checkexist = Db.VisibleStatusTables.Where(s => s.VisibleStatus.ToUpper() == cRU_VisibleStatusMV.VisibleStatus.ToUpper() && s.VisibleStatusID != cRU_VisibleStatusMV.VisibleStatusID).FirstOrDefault();
+                    if (checkexist == null)
+                    {
+                        var editstatus = Db.VisibleStatusTables.Find(cRU_VisibleStatusMV.VisibleStatusID);
+                        editstatus.VisibleStatus = cRU_VisibleStatusMV.VisibleStatus;
+                        Db.Entry(editstatus).State = System.Data.Entity.EntityState.Modified;
+                        Db.SaveChanges();
+                        return RedirectToAction("List_VisibleStatus", new { id = 0 });
+
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("VisibleStatus", "Field Required*");
+                    }
+                }
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Fill All Field Properly.");
+            }
+            return View(cRU_VisibleStatusMV);
+        }
+
     }
 }

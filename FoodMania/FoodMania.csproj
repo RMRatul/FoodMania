@@ -326,9 +326,11 @@
     <Compile Include="Models\CRU_GenderMV.cs" />
     <Compile Include="Models\CRU_UserStatusMV.cs" />
     <Compile Include="Models\CRU_UserTypeMV.cs" />
+    <Compile Include="Models\CRU_VisibleStatusMV.cs" />
     <Compile Include="Models\GenderMV.cs" />
     <Compile Include="Models\UserStatusMV.cs" />
     <Compile Include="Models\UserTypeMV.cs" />
+    <Compile Include="Models\VisibleStatusMV.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -379,6 +381,7 @@
     <Content Include="Views\Setting\List_UserTypes.cshtml" />
     <Content Include="Views\Setting\List_Genders.cshtml" />
     <Content Include="Views\Setting\List_UserStatus.cshtml" />
+    <Content Include="Views\Setting\List_VisibleStatus.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

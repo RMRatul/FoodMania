@@ -324,8 +324,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CRU_GenderMV.cs" />
+    <Compile Include="Models\CRU_UserStatusMV.cs" />
     <Compile Include="Models\CRU_UserTypeMV.cs" />
     <Compile Include="Models\GenderMV.cs" />
+    <Compile Include="Models\UserStatusMV.cs" />
     <Compile Include="Models\UserTypeMV.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -376,6 +378,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Setting\List_UserTypes.cshtml" />
     <Content Include="Views\Setting\List_Genders.cshtml" />
+    <Content Include="Views\Setting\List_UserStatus.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

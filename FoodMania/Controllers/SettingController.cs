@@ -107,5 +107,59 @@ namespace FoodMania.Controllers
             return View(cRU_GenderMV);
         }
 
+
+        public ActionResult List_UserStatus(int? id)
+        {
+            var userstatus = new CRU_UserStatusMV(id);
+            return View(userstatus);
+        }
+
+        [HttpPost]
+        public ActionResult List_UserStatus(CRU_UserStatusMV cRU_UserStatusMV)
+        {
+            if (ModelState.IsValid)
+            {
+                if (cRU_UserStatusMV.UserStatusID == 0)
+                {
+                    var checkexist = Db.UserStatusTables.Where(s => s.UserStatus.ToUpper() == cRU_UserStatusMV.UserStatus.ToUpper()).FirstOrDefault();
+                    if (checkexist == null)
+                    {
+                        var userstatus = new UserStatusTable();
+                        userstatus.UserStatus = cRU_UserStatusMV.UserStatus;
+                        Db.UserStatusTables.Add(userstatus);
+                        Db.SaveChanges();
+                        return RedirectToAction("List_UserStatus", new { id = 0 });
+
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("UserStatus", "Already Exist");
+                    }
+                }
+                else
+                {
+                    var checkexist = Db.UserStatusTables.Where(s => s.UserStatus.ToUpper() == cRU_UserStatusMV.UserStatus.ToUpper() && s.UserStatusID != cRU_UserStatusMV.UserStatusID).FirstOrDefault();
+                    if (checkexist == null)
+                    {
+                        var userstatus = Db.UserStatusTables.Find(cRU_UserStatusMV.UserStatusID);
+                        userstatus.UserStatus = cRU_UserStatusMV.UserStatus;
+                        Db.Entry(userstatus).State = System.Data.Entity.EntityState.Modified;
+                        Db.SaveChanges();
+                        return RedirectToAction("List_UserStatus", new { id = 0 });
+
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("UserStatus", "Field Required*");
+                    }
+                }
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Fill All Field Properly.");
+            }
+            return View(cRU_UserStatusMV);
+        }
+
     }
 }

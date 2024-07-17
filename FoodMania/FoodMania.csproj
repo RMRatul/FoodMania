@@ -320,6 +320,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SettingController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -328,6 +329,8 @@
     <Compile Include="Models\CRU_UserTypeMV.cs" />
     <Compile Include="Models\CRU_VisibleStatusMV.cs" />
     <Compile Include="Models\GenderMV.cs" />
+    <Compile Include="Models\LoginMV.cs" />
+    <Compile Include="Models\Reg_UserMV.cs" />
     <Compile Include="Models\UserStatusMV.cs" />
     <Compile Include="Models\UserTypeMV.cs" />
     <Compile Include="Models\VisibleStatusMV.cs" />
@@ -382,6 +385,8 @@
     <Content Include="Views\Setting\List_Genders.cshtml" />
     <Content Include="Views\Setting\List_UserStatus.cshtml" />
     <Content Include="Views\Setting\List_VisibleStatus.cshtml" />
+    <Content Include="Views\User\Login.cshtml" />
+    <Content Include="Views\User\Register.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

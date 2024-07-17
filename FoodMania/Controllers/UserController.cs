@@ -136,6 +136,7 @@ namespace FoodMania.Controllers
                 int.TryParse(Convert.ToString(Session["UserID"]), out userid);
             }
             var dasboard = new DashboardMV(userid);
+            var userdetail = Db.UserDetailTables.Find(userid);
             if (!string.IsNullOrEmpty(dashboardMV.OldPassword))
             {
 
@@ -163,6 +164,7 @@ namespace FoodMania.Controllers
                 var user = Db.UserTables.Find(userid);
                 user.FirstName = dashboardMV.ProfileMV.FirstName;
                 user.LastName = dashboardMV.ProfileMV.LastName;
+
                 user.EmailAddress = dashboardMV.ProfileMV.EmailAddress;
                 user.ContactNo = dashboardMV.ProfileMV.ContactNo;
                 Db.Entry(user).State = System.Data.Entity.EntityState.Modified;
@@ -175,7 +177,7 @@ namespace FoodMania.Controllers
                     if (response)
                     {
                         var photo = string.Format("{0}/{1}", folder, photoname);
-                        var userdetail = Db.UserDetailTables.Find(userid);
+                       
                         if (userdetail == null)
                         {
                             userdetail = new UserDetailTable();
@@ -195,6 +197,80 @@ namespace FoodMania.Controllers
                 }
                 ModelState.AddModelError(string.Empty, "Updated");
             }
+
+            if (!string.IsNullOrEmpty(dashboardMV.ProfileMV.EducationLevel))
+            {
+                userdetail.EducationalLevel = dashboardMV.ProfileMV.EducationLevel;
+                Db.Entry(userdetail).State = System.Data.Entity.EntityState.Modified;
+                Db.SaveChanges();
+            }
+            if (!string.IsNullOrEmpty(dashboardMV.ProfileMV.ExperenceLevel))
+            {
+               // userdetail.ExperenceLevel = dashboardMV.ProfileMV.ExperenceLevel;
+                Db.Entry(userdetail).State = System.Data.Entity.EntityState.Modified;
+                Db.SaveChanges();
+            }
+
+            if (dashboardMV.ProfileMV.EducationLastDegreePhoto != null)
+            {
+                var folder = "~/Content/OtherFiles";
+                var photoname = string.Format("Education_{0}.jpg", userid);
+                var response = HelperClass.FileUpload.UploadPhoto(dashboardMV.ProfileMV.EducationLastDegreePhoto, folder, photoname);
+                if (response)
+                {
+                    var photo = string.Format("{0}/{1}", folder, photoname);
+                    if (userdetail == null)
+                    {
+                        userdetail = new UserDetailTable();
+                        userdetail.UserDetailID = userid;
+                        userdetail.UserID = userid;
+                        userdetail.CreateBy_UserID = userid;
+                        userdetail.UserDetailProviderDate = DateTime.Now;
+                        userdetail.EducationLastDegreeScanPhotoPath = photo;
+                        Db.UserDetailTables.Add(userdetail);
+                        Db.SaveChanges();
+                    }
+                    else
+                    {
+                        userdetail.EducationLastDegreeScanPhotoPath = photo;
+                        userdetail.UserDetailProviderDate = DateTime.Now;
+                        Db.Entry(userdetail).State = System.Data.Entity.EntityState.Modified;
+                        Db.SaveChanges();
+                    }
+                }
+            }
+
+
+            if (dashboardMV.ProfileMV.ExperenceLastPhoto != null)
+            {
+                var folder = "~/Content/OtherFiles";
+                var photoname = string.Format("Experience_{0}.jpg", userid);
+                var response = HelperClass.FileUpload.UploadPhoto(dashboardMV.ProfileMV.ExperenceLastPhoto, folder, photoname);
+                if (response)
+                {
+                    var photo = string.Format("{0}/{1}", folder, photoname);
+                    if (userdetail == null)
+                    {
+                        userdetail = new UserDetailTable();
+                        userdetail.UserDetailID = userid;
+                        userdetail.UserID = userid;
+                        userdetail.CreateBy_UserID = userid;
+                        userdetail.UserDetailProviderDate = DateTime.Now;
+                        userdetail.LastExperienceScanPhotoPath = photo;
+                        Db.UserDetailTables.Add(userdetail);
+                        Db.SaveChanges();
+                    }
+                    else
+                    {
+                        userdetail.LastExperienceScanPhotoPath = photo;
+                        userdetail.UserDetailProviderDate = DateTime.Now;
+                        Db.Entry(userdetail).State = System.Data.Entity.EntityState.Modified;
+                        Db.SaveChanges();
+                    }
+                }
+            }
+
+
             return View(dasboard);
         }
 

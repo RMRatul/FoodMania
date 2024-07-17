@@ -20,6 +20,7 @@ namespace FoodMania.Models
             var user = db.UserTables.Find(id);
             ProfileMV.UserID = user.UserID;
             ProfileMV.UserType = user.UserTypeTable.UserType;
+            ProfileMV.UserTypeID = user.UserTypeID;
             ProfileMV.UserName = user.Username;
             ProfileMV.Password = user.Password;
             ProfileMV.FirstName = user.FirstName;

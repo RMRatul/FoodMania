@@ -209,6 +209,7 @@
     <Content Include="Content\Template\assets\images\shop\master.png" />
     <Content Include="Content\Template\assets\images\shop\pay.png" />
     <Content Include="Content\Template\assets\images\shop\visacard.png" />
+    <Content Include="Content\Template\assets\images\User.png" />
     <Content Include="Content\Template\assets\js\internal.js" />
     <Content Include="Content\Template\assets\js\onepage.js" />
     <Content Include="Content\Template\assets\libs\animated-headlines\animated-headlines.css" />
@@ -400,6 +401,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\OtherFiles\" />
     <Folder Include="Content\ProfilePhoto\" />
     <Folder Include="Views\Home\" />
   </ItemGroup>

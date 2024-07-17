@@ -76,7 +76,16 @@
                                     <div class="col-lg-6">
                                         <div class="brief-info">
                                             <div class="media">
-                                                <img class="mr-3" src="@Url.Content(Model.ProfileMV.PhotoPath)" style="width:100px;height:150px;max-width: 100%; height: auto;" alt="User">
+                                                @if (string.IsNullOrEmpty(Model.ProfileMV.PhotoPath))
+                                                {
+                                                    <img src="~/Content/Template/assets/images/User.jpg" />
+                                                    <img class="mr-3" src="~/Content/Template/assets/images/User.jpg" style="width:100px;height:150px;max-width: 100%; height: auto;" alt="User">
+                                                }
+                                                else
+                                                {
+                                                    <img class="mr-3" src="@Url.Content(Model.ProfileMV.PhotoPath)" style="width:100px;height:150px;max-width: 100%; height: auto;" alt="User">
+                                                }
+
                                                 <div class="media-body">
                                                     <h4>@Model.ProfileMV.FullName</h4>
                                                     <p><i class="icofont icofont-envelope"></i> @Model.ProfileMV.EmailAddress</p>
@@ -135,6 +144,12 @@
                                                     </div>
                                                     <div class="form-row">
                                                         <div class="form-group col-12">
+                                                            @Html.EditorFor(model => model.ProfileMV.CNIC, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter CNIC No" } })
+                                                            @Html.ValidationMessageFor(model => model.ProfileMV.CNIC, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row">
+                                                        <div class="form-group col-12">
                                                             @Html.EditorFor(model => model.ProfileMV.FullAddress, new { htmlAttributes = new { @class = "form-control", @placeholder = "Your Current Address" } })
                                                             @Html.ValidationMessageFor(model => model.ProfileMV.FullAddress, "", new { @class = "text-danger" })
                                                         </div>
@@ -184,6 +199,71 @@
                                                 }
                                             </div>
                                         </div>
+
+                                        @if (Model.ProfileMV.UserTypeID != 4)//customer
+                                        {
+                                            <div class="user-change-password mt-4">
+                                                <h5>Education + Experence</h5>
+                                                <div class="change-password-body">
+                                                    @using (Html.BeginForm("Dashboard", "User", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+                                                    {
+                                                        @Html.AntiForgeryToken()
+                                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-6">
+                                                                @Html.EditorFor(model => model.ProfileMV.EducationLevel, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Education Level" } })
+                                                                @Html.ValidationMessageFor(model => model.ProfileMV.EducationLevel, "", new { @class = "text-danger" })
+                                                                <span class="btn btn-default btn-file">
+                                                                    @Html.TextBoxFor(model => model.ProfileMV.EducationLastDegreePhoto, new { @class = "upload-pic form-control-file", @type = "file" })
+                                                                </span>
+                                                            </div>
+                                                            <div class="form-group col-md-6">
+                                                                @if (string.IsNullOrEmpty(Model.ProfileMV.EducationLastDegreePhotoPath))
+                                                                {
+                                                                    <label class="text-danger">Upload Last Degree</label>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <a href="@Url.Content(Model.ProfileMV.EducationLastDegreePhotoPath)">
+                                                                        <img src="@Url.Content(Model.ProfileMV.EducationLastDegreePhotoPath)" style="width:100px;height:150px;max-width: 100%; height: auto;">
+                                                                    </a>
+                                                                }
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-6">
+                                                                @Html.EditorFor(model => model.ProfileMV.ExperenceLevel, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Last Experience Field" } })
+                                                                @Html.ValidationMessageFor(model => model.ProfileMV.ExperenceLevel, "", new { @class = "text-danger" })
+                                                                <span class="btn btn-default btn-file">
+                                                                    @Html.TextBoxFor(model => model.ProfileMV.ExperenceLastPhoto, new { @class = "upload-pic form-control-file", @type = "file" })
+                                                                </span>
+                                                            </div>
+                                                            <div class="form-group col-md-6">
+                                                                @if (string.IsNullOrEmpty(Model.ProfileMV.ExperenceLastPhotoPath))
+                                                                {
+                                                                    <label class="text-danger">Upload Last Experience</label>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <a href="@Url.Content(Model.ProfileMV.ExperenceLastPhotoPath)">
+                                                                        <img src="@Url.Content(Model.ProfileMV.ExperenceLastPhotoPath)" style="width:100px;height:150px;max-width: 100%; height: auto;">
+                                                                    </a>
+                                                                }
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group mb-0 pt-4 text-center">
+                                                            <button class="btn btn-theme btn-md" type="submit">Submit</button>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+
+                                        }
+
+
                                     </div>
 
                                 </div>

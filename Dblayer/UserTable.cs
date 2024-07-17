@@ -45,8 +45,8 @@ namespace Dblayer
         public virtual ICollection<TableReservationTable> TableReservationTables1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserAddressTable> UserAddressTables { get; set; }
-        public virtual UserDetailTable UserDetailTable { get; set; }
         public virtual UserStatusTable UserStatusTable { get; set; }
         public virtual UserTypeTable UserTypeTable { get; set; }
+        public virtual UserDetailTable UserDetailTable { get; set; }
     }
 }

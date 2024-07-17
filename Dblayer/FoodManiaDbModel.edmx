@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="FoodManiaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="FoodManiaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AddressTypeTable">
           <Key>
             <PropertyRef Name="AddressTypeID" />
@@ -196,9 +196,9 @@
           <Property Name="UserDetailID" Type="int" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="UserDetailProviderDate" Type="date" Nullable="false" />
-          <Property Name="PhotoPath" Type="nvarchar" MaxLength="500" Nullable="false" />
-          <Property Name="CNIC" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="EducationalLevel" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="PhotoPath" Type="nvarchar" MaxLength="500" />
+          <Property Name="CNIC" Type="varchar" MaxLength="50" />
+          <Property Name="EducationalLevel" Type="nvarchar" MaxLength="500" />
           <Property Name="EducationLastDegreeScanPhotoPath" Type="varchar" MaxLength="500" />
           <Property Name="LastExperienceScanPhotoPath" Type="varchar" MaxLength="500" />
           <Property Name="CreateBy_UserID" Type="int" Nullable="false" />
@@ -762,8 +762,7 @@
             <End Role="UserTable" EntitySet="UserTable" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="FoodManiaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -996,21 +995,6 @@
           <NavigationProperty Name="VisibleStatusTable" Relationship="Self.FK_UserAddressTable_AddressTypeTable" FromRole="UserAddressTable" ToRole="VisibleStatusTable" />
           <NavigationProperty Name="UserTable" Relationship="Self.FK_UserAddressTable_UserTable" FromRole="UserAddressTable" ToRole="UserTable" />
         </EntityType>
-        <EntityType Name="UserDetailTable">
-          <Key>
-            <PropertyRef Name="UserDetailID" />
-          </Key>
-          <Property Name="UserDetailID" Type="Int32" Nullable="false" />
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="UserDetailProviderDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="PhotoPath" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="CNIC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="EducationalLevel" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="EducationLastDegreeScanPhotoPath" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="LastExperienceScanPhotoPath" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="CreateBy_UserID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="UserTable" Relationship="Self.FK_UserDetailTable_UserTable" FromRole="UserDetailTable" ToRole="UserTable" />
-        </EntityType>
         <EntityType Name="UserStatusTable">
           <Key>
             <PropertyRef Name="UserStatusID" />
@@ -1040,9 +1024,9 @@
           <NavigationProperty Name="TableReservationTables" Relationship="Self.FK_TableReservationTable_Process_UserTable" FromRole="UserTable" ToRole="TableReservationTable" />
           <NavigationProperty Name="TableReservationTables1" Relationship="Self.FK_TableReservationTable_UserTable1" FromRole="UserTable" ToRole="TableReservationTable" />
           <NavigationProperty Name="UserAddressTables" Relationship="Self.FK_UserAddressTable_UserTable" FromRole="UserTable" ToRole="UserAddressTable" />
-          <NavigationProperty Name="UserDetailTable" Relationship="Self.FK_UserDetailTable_UserTable" FromRole="UserTable" ToRole="UserDetailTable" />
           <NavigationProperty Name="UserStatusTable" Relationship="Self.FK_UserTable_UserStatusTable" FromRole="UserTable" ToRole="UserStatusTable" />
           <NavigationProperty Name="UserTypeTable" Relationship="Self.FK_UserTable_UserTypeTable" FromRole="UserTable" ToRole="UserTypeTable" />
+          <NavigationProperty Name="UserDetailTable" Relationship="FoodManiaModel.FK_UserDetailTable_UserTable" FromRole="UserTable" ToRole="UserDetailTable" />
         </EntityType>
         <EntityType Name="UserTypeTable">
           <Key>
@@ -1401,18 +1385,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_UserDetailTable_UserTable">
-          <End Role="UserTable" Type="Self.UserTable" Multiplicity="1" />
-          <End Role="UserDetailTable" Type="Self.UserDetailTable" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="UserTable">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="UserDetailTable">
-              <PropertyRef Name="UserDetailID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_UserTable_UserStatusTable">
           <End Role="UserStatusTable" Type="Self.UserStatusTable" Multiplicity="1" />
           <End Role="UserTable" Type="Self.UserTable" Multiplicity="*" />
@@ -1456,7 +1428,6 @@
           <EntitySet Name="StockMenuItemTables" EntityType="Self.StockMenuItemTable" />
           <EntitySet Name="TableReservationTables" EntityType="Self.TableReservationTable" />
           <EntitySet Name="UserAddressTables" EntityType="Self.UserAddressTable" />
-          <EntitySet Name="UserDetailTables" EntityType="Self.UserDetailTable" />
           <EntitySet Name="UserStatusTables" EntityType="Self.UserStatusTable" />
           <EntitySet Name="UserTables" EntityType="Self.UserTable" />
           <EntitySet Name="UserTypeTables" EntityType="Self.UserTypeTable" />
@@ -1573,10 +1544,6 @@
             <End Role="UserTable" EntitySet="UserTables" />
             <End Role="UserAddressTable" EntitySet="UserAddressTables" />
           </AssociationSet>
-          <AssociationSet Name="FK_UserDetailTable_UserTable" Association="Self.FK_UserDetailTable_UserTable">
-            <End Role="UserTable" EntitySet="UserTables" />
-            <End Role="UserDetailTable" EntitySet="UserDetailTables" />
-          </AssociationSet>
           <AssociationSet Name="FK_UserTable_UserStatusTable" Association="Self.FK_UserTable_UserStatusTable">
             <End Role="UserStatusTable" EntitySet="UserStatusTables" />
             <End Role="UserTable" EntitySet="UserTables" />
@@ -1585,7 +1552,39 @@
             <End Role="UserTypeTable" EntitySet="UserTypeTables" />
             <End Role="UserTable" EntitySet="UserTables" />
           </AssociationSet>
+          <EntitySet Name="UserDetailTables" EntityType="FoodManiaModel.UserDetailTable" />
+          <AssociationSet Name="FK_UserDetailTable_UserTable" Association="FoodManiaModel.FK_UserDetailTable_UserTable">
+            <End Role="UserTable" EntitySet="UserTables" />
+            <End Role="UserDetailTable" EntitySet="UserDetailTables" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="UserDetailTable">
+          <Key>
+            <PropertyRef Name="UserDetailID" />
+          </Key>
+          <Property Name="UserDetailID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="UserDetailProviderDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="PhotoPath" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CNIC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EducationalLevel" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="EducationLastDegreeScanPhotoPath" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="LastExperienceScanPhotoPath" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CreateBy_UserID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="UserTable" Relationship="FoodManiaModel.FK_UserDetailTable_UserTable" FromRole="UserDetailTable" ToRole="UserTable" />
+        </EntityType>
+        <Association Name="FK_UserDetailTable_UserTable">
+          <End Type="FoodManiaModel.UserTable" Role="UserTable" Multiplicity="1" />
+          <End Type="FoodManiaModel.UserDetailTable" Role="UserDetailTable" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UserDetailTable">
+              <PropertyRef Name="UserDetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1794,21 +1793,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="UserDetailTables">
-            <EntityTypeMapping TypeName="FoodManiaModel.UserDetailTable">
-              <MappingFragment StoreEntitySet="UserDetailTable">
-                <ScalarProperty Name="UserDetailID" ColumnName="UserDetailID" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="UserDetailProviderDate" ColumnName="UserDetailProviderDate" />
-                <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
-                <ScalarProperty Name="CNIC" ColumnName="CNIC" />
-                <ScalarProperty Name="EducationalLevel" ColumnName="EducationalLevel" />
-                <ScalarProperty Name="EducationLastDegreeScanPhotoPath" ColumnName="EducationLastDegreeScanPhotoPath" />
-                <ScalarProperty Name="LastExperienceScanPhotoPath" ColumnName="LastExperienceScanPhotoPath" />
-                <ScalarProperty Name="CreateBy_UserID" ColumnName="CreateBy_UserID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="UserStatusTables">
             <EntityTypeMapping TypeName="FoodManiaModel.UserStatusTable">
               <MappingFragment StoreEntitySet="UserStatusTable">
@@ -1848,6 +1832,21 @@
               <MappingFragment StoreEntitySet="VisibleStatusTable">
                 <ScalarProperty Name="VisibleStatusID" ColumnName="VisibleStatusID" />
                 <ScalarProperty Name="VisibleStatus" ColumnName="VisibleStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserDetailTables">
+            <EntityTypeMapping TypeName="FoodManiaModel.UserDetailTable">
+              <MappingFragment StoreEntitySet="UserDetailTable">
+                <ScalarProperty Name="CreateBy_UserID" ColumnName="CreateBy_UserID" />
+                <ScalarProperty Name="LastExperienceScanPhotoPath" ColumnName="LastExperienceScanPhotoPath" />
+                <ScalarProperty Name="EducationLastDegreeScanPhotoPath" ColumnName="EducationLastDegreeScanPhotoPath" />
+                <ScalarProperty Name="EducationalLevel" ColumnName="EducationalLevel" />
+                <ScalarProperty Name="CNIC" ColumnName="CNIC" />
+                <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
+                <ScalarProperty Name="UserDetailProviderDate" ColumnName="UserDetailProviderDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="UserDetailID" ColumnName="UserDetailID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

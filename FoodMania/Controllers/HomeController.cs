@@ -11,7 +11,7 @@ namespace FoodMania.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            return RedirectToAction("List_UserTypes","Setting",new { id = 0});
+            return RedirectToAction("Login","User",new { id = 0});
         }
     }
 }

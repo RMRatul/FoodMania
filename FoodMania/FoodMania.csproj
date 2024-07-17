@@ -324,15 +324,18 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="HelperClass\FileUpload.cs" />
     <Compile Include="Models\CRU_GenderMV.cs" />
     <Compile Include="Models\CRU_UserStatusMV.cs" />
     <Compile Include="Models\CRU_UserTypeMV.cs" />
     <Compile Include="Models\CRU_VisibleStatusMV.cs" />
+    <Compile Include="Models\DashboardMV.cs" />
     <Compile Include="Models\GenderMV.cs" />
     <Compile Include="Models\LoginMV.cs" />
     <Compile Include="Models\Reg_UserMV.cs" />
     <Compile Include="Models\UserStatusMV.cs" />
     <Compile Include="Models\UserTypeMV.cs" />
+    <Compile Include="Models\User_ProfileMV.cs" />
     <Compile Include="Models\VisibleStatusMV.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -387,6 +390,7 @@
     <Content Include="Views\Setting\List_VisibleStatus.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\User\Register.cshtml" />
+    <Content Include="Views\User\Dashboard.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -396,6 +400,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\ProfilePhoto\" />
     <Folder Include="Views\Home\" />
   </ItemGroup>
   <ItemGroup>

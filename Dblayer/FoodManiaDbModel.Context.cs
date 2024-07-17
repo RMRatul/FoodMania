@@ -43,10 +43,10 @@ namespace Dblayer
         public virtual DbSet<StockMenuItemTable> StockMenuItemTables { get; set; }
         public virtual DbSet<TableReservationTable> TableReservationTables { get; set; }
         public virtual DbSet<UserAddressTable> UserAddressTables { get; set; }
-        public virtual DbSet<UserDetailTable> UserDetailTables { get; set; }
         public virtual DbSet<UserStatusTable> UserStatusTables { get; set; }
         public virtual DbSet<UserTable> UserTables { get; set; }
         public virtual DbSet<UserTypeTable> UserTypeTables { get; set; }
         public virtual DbSet<VisibleStatusTable> VisibleStatusTables { get; set; }
+        public virtual DbSet<UserDetailTable> UserDetailTables { get; set; }
     }
 }

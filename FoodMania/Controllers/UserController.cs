@@ -31,7 +31,7 @@ namespace FoodMania.Controllers
                     {
                         Session["UserID"] = user.UserID;
                         Session["UserTypeID"] = user.UserTypeID;
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Dashboard", "User");
                     }
                     else
                     {
@@ -103,6 +103,99 @@ namespace FoodMania.Controllers
             }
             ViewBag.GenderID = new SelectList(Db.GenderTables.ToList(), "GenderID", "GenderTittle", reg_UserMV.GenderID);
             return View(reg_UserMV);
+        }
+
+
+        public ActionResult Dashboard()
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserTypeID"])))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            int userid = 0;
+            if (!string.IsNullOrEmpty(Convert.ToString(Session["UserID"])))
+            {
+                int.TryParse(Convert.ToString(Session["UserID"]), out userid);
+            }
+
+            var dashboard = new DashboardMV(userid);
+            return View(dashboard);
+        }
+
+        [HttpPost]
+        public ActionResult Dashboard(DashboardMV dashboardMV)
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserTypeID"])))
+            {
+                return RedirectToAction("Login", "User");
+            }
+            int userid = 0;
+            if (!string.IsNullOrEmpty(Convert.ToString(Session["UserID"])))
+            {
+                int.TryParse(Convert.ToString(Session["UserID"]), out userid);
+            }
+            var dasboard = new DashboardMV(userid);
+            if (!string.IsNullOrEmpty(dashboardMV.OldPassword))
+            {
+
+                if (dasboard.ProfileMV.Password == dashboardMV.OldPassword)
+                {
+                    if (dashboardMV.NewPassword.Trim() == dashboardMV.ConfirmPassword.Trim())
+                    {
+                        var user = Db.UserTables.Find(userid);
+                        user.Password = dashboardMV.NewPassword;
+                        Db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+                        Db.SaveChanges();
+                        ModelState.AddModelError("OldPassword", "Password Changed");
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("OldPassword", "Old Password is Incorrect!");
+                }
+            }
+            if (!string.IsNullOrEmpty(dashboardMV.ProfileMV.FirstName) &&
+               !string.IsNullOrEmpty(dashboardMV.ProfileMV.LastName) &&
+               !string.IsNullOrEmpty(dashboardMV.ProfileMV.EmailAddress) &&
+               !string.IsNullOrEmpty(dashboardMV.ProfileMV.ContactNo))
+            {
+                var user = Db.UserTables.Find(userid);
+                user.FirstName = dashboardMV.ProfileMV.FirstName;
+                user.LastName = dashboardMV.ProfileMV.LastName;
+                user.EmailAddress = dashboardMV.ProfileMV.EmailAddress;
+                user.ContactNo = dashboardMV.ProfileMV.ContactNo;
+                Db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+                Db.SaveChanges();
+                if (dashboardMV.ProfileMV.UserPhoto != null)
+                {
+                    var folder = "~/Content/ProfilePhoto";
+                    var photoname = string.Format("{0}.jpg", user.UserID);
+                    var response = HelperClass.FileUpload.UploadPhoto(dashboardMV.ProfileMV.UserPhoto, folder, photoname);
+                    if (response)
+                    {
+                        var photo = string.Format("{0}/{1}", folder, photoname);
+                        var userdetail = Db.UserDetailTables.Find(userid);
+                        if (userdetail == null)
+                        {
+                            userdetail = new UserDetailTable();
+                            userdetail.UserDetailID = userid;
+                            userdetail.UserID = userid;
+                            userdetail.CreateBy_UserID = userid;
+                            userdetail.UserDetailProviderDate = DateTime.Now;
+                            userdetail.PhotoPath = photo;
+                            Db.UserDetailTables.Add(userdetail);
+                            Db.SaveChanges();
+                        }
+                        userdetail.PhotoPath = photo;
+                        userdetail.UserDetailProviderDate = DateTime.Now;
+                        Db.Entry(userdetail).State = System.Data.Entity.EntityState.Modified;
+                        Db.SaveChanges();
+                    }
+                }
+                ModelState.AddModelError(string.Empty, "Updated");
+            }
+            return View(dasboard);
         }
 
 

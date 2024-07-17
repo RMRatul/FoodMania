@@ -23,7 +23,6 @@
         <EntityTypeShape EntityType="FoodManiaModel.StockMenuItemTable" Width="1.5" PointX="10.5" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="FoodManiaModel.TableReservationTable" Width="1.5" PointX="8.25" PointY="11.75" IsExpanded="true" />
         <EntityTypeShape EntityType="FoodManiaModel.UserAddressTable" Width="1.5" PointX="5.25" PointY="7.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="FoodManiaModel.UserDetailTable" Width="1.5" PointX="5.25" PointY="25.25" IsExpanded="true" />
         <EntityTypeShape EntityType="FoodManiaModel.UserStatusTable" Width="1.5" PointX="0.75" PointY="9.75" IsExpanded="true" />
         <EntityTypeShape EntityType="FoodManiaModel.UserTable" Width="1.5" PointX="3" PointY="11.25" IsExpanded="true" />
         <EntityTypeShape EntityType="FoodManiaModel.UserTypeTable" Width="1.5" PointX="0.75" PointY="16" IsExpanded="true" />
@@ -56,9 +55,10 @@
         <AssociationConnector Association="FoodManiaModel.FK_TableReservationTable_UserTable1" ManuallyRouted="false" />
         <AssociationConnector Association="FoodManiaModel.FK_UserAddressTable_AddressTypeTable" ManuallyRouted="false" />
         <AssociationConnector Association="FoodManiaModel.FK_UserAddressTable_UserTable" ManuallyRouted="false" />
-        <AssociationConnector Association="FoodManiaModel.FK_UserDetailTable_UserTable" ManuallyRouted="false" />
         <AssociationConnector Association="FoodManiaModel.FK_UserTable_UserStatusTable" ManuallyRouted="false" />
         <AssociationConnector Association="FoodManiaModel.FK_UserTable_UserTypeTable" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="FoodManiaModel.UserDetailTable" Width="1.5" PointX="5.25" PointY="20.25" />
+        <AssociationConnector Association="FoodManiaModel.FK_UserDetailTable_UserTable" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -15,6 +15,10 @@ namespace FoodMania.Controllers
         // GET: Setting
         public ActionResult List_UserTypes(int? id)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserTypeID"])))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             var usertype = new CRU_UserTypeMV(id);
             return View(usertype);
         }
@@ -22,6 +26,10 @@ namespace FoodMania.Controllers
         [HttpPost]
         public ActionResult List_UserTypes(CRU_UserTypeMV cRU_UserTypeMV)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserTypeID"])))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (ModelState.IsValid)
             {
                 if (cRU_UserTypeMV.UserTypeID == 0)
@@ -62,6 +70,10 @@ namespace FoodMania.Controllers
 
         public ActionResult List_Genders(int? id)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserTypeID"])))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             var gender = new CRU_GenderMV(id);
             return View(gender);
         }
@@ -69,6 +81,10 @@ namespace FoodMania.Controllers
         [HttpPost]
         public ActionResult List_Genders(CRU_GenderMV cRU_GenderMV)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserTypeID"])))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (ModelState.IsValid)
             {
                 if (cRU_GenderMV.GenderID == 0)
@@ -110,6 +126,10 @@ namespace FoodMania.Controllers
 
         public ActionResult List_UserStatus(int? id)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserTypeID"])))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             var userstatus = new CRU_UserStatusMV(id);
             return View(userstatus);
         }
@@ -117,6 +137,10 @@ namespace FoodMania.Controllers
         [HttpPost]
         public ActionResult List_UserStatus(CRU_UserStatusMV cRU_UserStatusMV)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserTypeID"])))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (ModelState.IsValid)
             {
                 if (cRU_UserStatusMV.UserStatusID == 0)
@@ -163,6 +187,10 @@ namespace FoodMania.Controllers
 
         public ActionResult List_VisibleStatus(int? id)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserTypeID"])))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             var status = new CRU_VisibleStatusMV(id);
             return View(status);
         }
@@ -170,6 +198,10 @@ namespace FoodMania.Controllers
         [HttpPost]
         public ActionResult List_VisibleStatus(CRU_VisibleStatusMV cRU_VisibleStatusMV)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserTypeID"])))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (ModelState.IsValid)
             {
                 if (cRU_VisibleStatusMV.VisibleStatusID == 0)

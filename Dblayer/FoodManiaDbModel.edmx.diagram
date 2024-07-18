@@ -5,7 +5,6 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="e7ac01a0cfc44b219513820dd1f040cc" Name="Diagram1">
-        <EntityTypeShape EntityType="FoodManiaModel.AddressTypeTable" Width="1.5" PointX="3" PointY="6.25" IsExpanded="true" />
         <EntityTypeShape EntityType="FoodManiaModel.DiscountTable" Width="1.5" PointX="8.25" PointY="6.125" IsExpanded="true" />
         <EntityTypeShape EntityType="FoodManiaModel.GenderTable" Width="1.5" PointX="0.75" PointY="12.875" IsExpanded="true" />
         <EntityTypeShape EntityType="FoodManiaModel.OrderDealDetailTable" Width="1.5" PointX="10.5" PointY="12.5" IsExpanded="true" />
@@ -27,7 +26,6 @@
         <EntityTypeShape EntityType="FoodManiaModel.UserTable" Width="1.5" PointX="3" PointY="11.25" IsExpanded="true" />
         <EntityTypeShape EntityType="FoodManiaModel.UserTypeTable" Width="1.5" PointX="0.75" PointY="16" IsExpanded="true" />
         <EntityTypeShape EntityType="FoodManiaModel.VisibleStatusTable" Width="1.5" PointX="3" PointY="2.5" IsExpanded="true" />
-        <AssociationConnector Association="FoodManiaModel.FK_UserAddressTable_UserAddressTable" ManuallyRouted="false" />
         <AssociationConnector Association="FoodManiaModel.FK_OrderItemDetailTable_DiscountTable" ManuallyRouted="false" />
         <AssociationConnector Association="FoodManiaModel.FK_UserTable_GenderTable" ManuallyRouted="false" />
         <AssociationConnector Association="FoodManiaModel.FK_OrderDealDetailTable_OrderTable" ManuallyRouted="false" />
@@ -59,6 +57,8 @@
         <AssociationConnector Association="FoodManiaModel.FK_UserTable_UserTypeTable" ManuallyRouted="false" />
         <EntityTypeShape EntityType="FoodManiaModel.UserDetailTable" Width="1.5" PointX="5.25" PointY="20.25" />
         <AssociationConnector Association="FoodManiaModel.FK_UserDetailTable_UserTable" />
+        <EntityTypeShape EntityType="FoodManiaModel.AddressTypeTable" Width="1.5" PointX="13.375" PointY="0.875" />
+        <AssociationConnector Association="FoodManiaModel.FK_UserAddressTable_UserAddressTable" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

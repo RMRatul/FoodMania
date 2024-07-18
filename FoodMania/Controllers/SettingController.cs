@@ -246,5 +246,92 @@ namespace FoodMania.Controllers
             return View(cRU_VisibleStatusMV);
         }
 
+
+        
+        public ActionResult List_UserAddress(int? id)
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserTypeID"])))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            int userid = 0;
+            if (!string.IsNullOrEmpty(Convert.ToString(Session["UserID"])))
+            {
+                int.TryParse(Convert.ToString(Session["UserID"]), out userid);
+            }
+            var address = new CRU_UserAddressMV(id);
+            ViewBag.AddressTypeID = new SelectList(Db.AddressTypeTables.ToList(), "AddressTypeID", "AddressType", address.AddressTypeID);
+            ViewBag.VisibleStatusID = new SelectList(Db.VisibleStatusTables.ToList(), "VisibleStatusID", "VisibleStatus", address.VisibleStatusID);
+            return View(address);
+        }
+
+        [HttpPost]
+        public ActionResult List_UserAddress(CRU_UserAddressMV cRU_UserAddressMV)
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserTypeID"])))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            int userid = 0;
+            if (!string.IsNullOrEmpty(Convert.ToString(Session["UserID"])))
+            {
+                int.TryParse(Convert.ToString(Session["UserID"]), out userid);
+            }
+            if (ModelState.IsValid)
+            {
+                if (cRU_UserAddressMV.UserAddressID == 0)
+                {
+                    var checkexist = Db.UserAddressTables.Where(s => s.FullAddress.ToUpper() == cRU_UserAddressMV.FullAddress.ToUpper() && s.AddressTypeID == cRU_UserAddressMV.AddressTypeID).FirstOrDefault();
+                    if (checkexist == null)
+                    {
+                        var newaddress = new UserAddressTable();
+                        newaddress.UserID = userid;
+                        newaddress.AddressTypeID = cRU_UserAddressMV.AddressTypeID;
+                        newaddress.FullAddress = cRU_UserAddressMV.FullAddress;
+                        newaddress.VisibleStatusID = cRU_UserAddressMV.VisibleStatusID;
+                        newaddress.CreatedBy_UserID = userid;
+                        Db.UserAddressTables.Add(newaddress);
+                        Db.SaveChanges();
+                        return RedirectToAction("List_UserAddress", new { id = 0 });
+
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("FullAddress", "Already Exist!");
+                    }
+                }
+                else
+                {
+                    var checkexist = Db.UserAddressTables.Where(s => s.FullAddress.ToUpper() == cRU_UserAddressMV.FullAddress.ToUpper() && s.AddressTypeID == cRU_UserAddressMV.AddressTypeID && s.UserAddressID != cRU_UserAddressMV.UserAddressID).FirstOrDefault();
+                    if (checkexist == null)
+                    {
+                        var edituseraddress = Db.UserAddressTables.Find(cRU_UserAddressMV.UserAddressID);
+                        edituseraddress.UserID = userid;
+                        edituseraddress.AddressTypeID = cRU_UserAddressMV.AddressTypeID;
+                        edituseraddress.FullAddress = cRU_UserAddressMV.FullAddress;
+                        edituseraddress.VisibleStatusID = cRU_UserAddressMV.VisibleStatusID;
+                        edituseraddress.CreatedBy_UserID = userid;
+                        Db.Entry(edituseraddress).State = System.Data.Entity.EntityState.Modified;
+                        Db.SaveChanges();
+                        return RedirectToAction("List_UserAddress", new { id = 0 });
+
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("FullAddress", "Already Exist!");
+                    }
+                }
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Fill All Field Properly.");
+            }
+            ViewBag.AddressTypeID = new SelectList(Db.AddressTypeTables.ToList(), "AddressTypeID", "AddressType", cRU_UserAddressMV.AddressTypeID);
+            ViewBag.VisibleStatusID = new SelectList(Db.VisibleStatusTables.ToList(), "VisibleStatusID", "VisibleStatus", cRU_UserAddressMV.VisibleStatusID);
+            return View(cRU_UserAddressMV);
+        }
+
     }
 }

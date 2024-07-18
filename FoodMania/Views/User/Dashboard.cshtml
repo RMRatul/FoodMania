@@ -150,7 +150,7 @@
                                                     </div>
                                                     <div class="form-row">
                                                         <div class="form-group col-12">
-                                                            @Html.EditorFor(model => model.ProfileMV.FullAddress, new { htmlAttributes = new { @class = "form-control", @placeholder = "Your Current Address" } })
+                                                            @Html.EditorFor(model => model.ProfileMV.FullAddress, new { htmlAttributes = new { @class = "form-control", @placeholder = "Your Current Address",@readonly=true } })
                                                             @Html.ValidationMessageFor(model => model.ProfileMV.FullAddress, "", new { @class = "text-danger" })
                                                         </div>
                                                     </div>

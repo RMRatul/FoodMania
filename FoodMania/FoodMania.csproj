@@ -327,6 +327,7 @@
     </Compile>
     <Compile Include="HelperClass\FileUpload.cs" />
     <Compile Include="Models\CRU_GenderMV.cs" />
+    <Compile Include="Models\CRU_UserAddressMV.cs" />
     <Compile Include="Models\CRU_UserStatusMV.cs" />
     <Compile Include="Models\CRU_UserTypeMV.cs" />
     <Compile Include="Models\CRU_VisibleStatusMV.cs" />
@@ -334,6 +335,7 @@
     <Compile Include="Models\GenderMV.cs" />
     <Compile Include="Models\LoginMV.cs" />
     <Compile Include="Models\Reg_UserMV.cs" />
+    <Compile Include="Models\UserAddressMV.cs" />
     <Compile Include="Models\UserStatusMV.cs" />
     <Compile Include="Models\UserTypeMV.cs" />
     <Compile Include="Models\User_ProfileMV.cs" />
@@ -392,6 +394,7 @@
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\User\Register.cshtml" />
     <Content Include="Views\User\Dashboard.cshtml" />
+    <Content Include="Views\Setting\List_UserAddress.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

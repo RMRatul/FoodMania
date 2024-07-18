@@ -129,17 +129,23 @@
                                             <li class="nav-item"><a href="@Url.Content("~/Home/Index")">HOME</a></li>
                                             <li class="nav-item"><a href="#">about us</a></li>
                                             <li class="nav-item"><a href="#">Our Menu</a></li>
-                                            @if (usertypeid == 1 || usertypeid == 3)
+                                            @if (userid > 0)  //admin
                                             {
                                                 <li class="nav-item dropdown">
                                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Setting</a>
                                                     <div class="dropdown-menu">
                                                         <div class="dropdown-inner">
                                                             <ul class="list-unstyled">
-                                                                <li><a href="@Url.Content("~/Setting/List_UserTypes")">User Types</a></li>
-                                                                <li><a href="@Url.Content("~/Setting/List_Genders")">Genders</a></li>
-                                                                <li><a href="@Url.Content("~/Setting/List_UserStatus")">Account Status</a></li>
-                                                                <li><a href="@Url.Content("~/Setting/List_VisibleStatus")">Record Visible Status</a></li>
+                                                                @if (usertypeid == 1 || usertypeid == 3)
+                                                                {
+
+                                                                    <li><a href="@Url.Content("~/Setting/List_UserTypes")">User Types</a></li>
+                                                                    <li><a href="@Url.Content("~/Setting/List_Genders")">Genders</a></li>
+                                                                    <li><a href="@Url.Content("~/Setting/List_UserStatus")">Account Status</a></li>
+                                                                    <li><a href="@Url.Content("~/Setting/List_VisibleStatus")">Record Visible Status</a></li>
+                                                                }
+
+                                                                <li><a href="@Url.Content("~/Setting/List_UserAddress")">User Addresses</a></li>
                                                             </ul>
                                                         </div>
                                                     </div>

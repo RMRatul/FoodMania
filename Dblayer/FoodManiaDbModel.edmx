@@ -11,6 +11,7 @@
           </Key>
           <Property Name="AddressTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AddressType" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="CreatedBy_UserID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="DiscountTable">
           <Key>
@@ -766,14 +767,6 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="FoodManiaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="AddressTypeTable">
-          <Key>
-            <PropertyRef Name="AddressTypeID" />
-          </Key>
-          <Property Name="AddressTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AddressType" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="UserAddressTables" Relationship="Self.FK_UserAddressTable_UserAddressTable" FromRole="AddressTypeTable" ToRole="UserAddressTable" />
-        </EntityType>
         <EntityType Name="DiscountTable">
           <Key>
             <PropertyRef Name="DiscountID" />
@@ -990,10 +983,10 @@
           <Property Name="FullAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="VisibleStatusID" Type="Int32" Nullable="false" />
           <Property Name="CreatedBy_UserID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="AddressTypeTable" Relationship="Self.FK_UserAddressTable_UserAddressTable" FromRole="UserAddressTable" ToRole="AddressTypeTable" />
           <NavigationProperty Name="OrderTables" Relationship="Self.FK_OrderTable_UserAddressTable" FromRole="UserAddressTable" ToRole="OrderTable" />
           <NavigationProperty Name="VisibleStatusTable" Relationship="Self.FK_UserAddressTable_AddressTypeTable" FromRole="UserAddressTable" ToRole="VisibleStatusTable" />
           <NavigationProperty Name="UserTable" Relationship="Self.FK_UserAddressTable_UserTable" FromRole="UserAddressTable" ToRole="UserTable" />
+          <NavigationProperty Name="AddressTypeTable" Relationship="FoodManiaModel.FK_UserAddressTable_UserAddressTable" FromRole="UserAddressTable" ToRole="AddressTypeTable" />
         </EntityType>
         <EntityType Name="UserStatusTable">
           <Key>
@@ -1049,18 +1042,6 @@
           <NavigationProperty Name="StockMenuItemTables" Relationship="Self.FK_StockMenuItemTable_VisibleStatusTable" FromRole="VisibleStatusTable" ToRole="StockMenuItemTable" />
           <NavigationProperty Name="UserAddressTables" Relationship="Self.FK_UserAddressTable_AddressTypeTable" FromRole="VisibleStatusTable" ToRole="UserAddressTable" />
         </EntityType>
-        <Association Name="FK_UserAddressTable_UserAddressTable">
-          <End Role="AddressTypeTable" Type="Self.AddressTypeTable" Multiplicity="1" />
-          <End Role="UserAddressTable" Type="Self.UserAddressTable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AddressTypeTable">
-              <PropertyRef Name="AddressTypeID" />
-            </Principal>
-            <Dependent Role="UserAddressTable">
-              <PropertyRef Name="AddressTypeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_OrderItemDetailTable_DiscountTable">
           <End Role="DiscountTable" Type="Self.DiscountTable" Multiplicity="1" />
           <End Role="OrderItemDetailTable" Type="Self.OrderItemDetailTable" Multiplicity="*" />
@@ -1410,7 +1391,6 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="FoodManiaEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="AddressTypeTables" EntityType="Self.AddressTypeTable" />
           <EntitySet Name="DiscountTables" EntityType="Self.DiscountTable" />
           <EntitySet Name="GenderTables" EntityType="Self.GenderTable" />
           <EntitySet Name="OrderDealDetailTables" EntityType="Self.OrderDealDetailTable" />
@@ -1432,10 +1412,6 @@
           <EntitySet Name="UserTables" EntityType="Self.UserTable" />
           <EntitySet Name="UserTypeTables" EntityType="Self.UserTypeTable" />
           <EntitySet Name="VisibleStatusTables" EntityType="Self.VisibleStatusTable" />
-          <AssociationSet Name="FK_UserAddressTable_UserAddressTable" Association="Self.FK_UserAddressTable_UserAddressTable">
-            <End Role="AddressTypeTable" EntitySet="AddressTypeTables" />
-            <End Role="UserAddressTable" EntitySet="UserAddressTables" />
-          </AssociationSet>
           <AssociationSet Name="FK_OrderItemDetailTable_DiscountTable" Association="Self.FK_OrderItemDetailTable_DiscountTable">
             <End Role="DiscountTable" EntitySet="DiscountTables" />
             <End Role="OrderItemDetailTable" EntitySet="OrderItemDetailTables" />
@@ -1557,6 +1533,11 @@
             <End Role="UserTable" EntitySet="UserTables" />
             <End Role="UserDetailTable" EntitySet="UserDetailTables" />
           </AssociationSet>
+          <EntitySet Name="AddressTypeTables" EntityType="FoodManiaModel.AddressTypeTable" />
+          <AssociationSet Name="FK_UserAddressTable_UserAddressTable" Association="FoodManiaModel.FK_UserAddressTable_UserAddressTable">
+            <End Role="AddressTypeTable" EntitySet="AddressTypeTables" />
+            <End Role="UserAddressTable" EntitySet="UserAddressTables" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="UserDetailTable">
           <Key>
@@ -1585,20 +1566,33 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="AddressTypeTable">
+          <Key>
+            <PropertyRef Name="AddressTypeID" />
+          </Key>
+          <Property Name="AddressTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AddressType" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy_UserID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="UserAddressTables" Relationship="FoodManiaModel.FK_UserAddressTable_UserAddressTable" FromRole="AddressTypeTable" ToRole="UserAddressTable" />
+        </EntityType>
+        <Association Name="FK_UserAddressTable_UserAddressTable">
+          <End Type="FoodManiaModel.AddressTypeTable" Role="AddressTypeTable" Multiplicity="1" />
+          <End Type="FoodManiaModel.UserAddressTable" Role="UserAddressTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AddressTypeTable">
+              <PropertyRef Name="AddressTypeID" />
+            </Principal>
+            <Dependent Role="UserAddressTable">
+              <PropertyRef Name="AddressTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="FoodManiaModelStoreContainer" CdmEntityContainer="FoodManiaEntities">
-          <EntitySetMapping Name="AddressTypeTables">
-            <EntityTypeMapping TypeName="FoodManiaModel.AddressTypeTable">
-              <MappingFragment StoreEntitySet="AddressTypeTable">
-                <ScalarProperty Name="AddressTypeID" ColumnName="AddressTypeID" />
-                <ScalarProperty Name="AddressType" ColumnName="AddressType" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="DiscountTables">
             <EntityTypeMapping TypeName="FoodManiaModel.DiscountTable">
               <MappingFragment StoreEntitySet="DiscountTable">
@@ -1847,6 +1841,15 @@
                 <ScalarProperty Name="UserDetailProviderDate" ColumnName="UserDetailProviderDate" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="UserDetailID" ColumnName="UserDetailID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AddressTypeTables">
+            <EntityTypeMapping TypeName="FoodManiaModel.AddressTypeTable">
+              <MappingFragment StoreEntitySet="AddressTypeTable">
+                <ScalarProperty Name="CreatedBy_UserID" ColumnName="CreatedBy_UserID" />
+                <ScalarProperty Name="AddressType" ColumnName="AddressType" />
+                <ScalarProperty Name="AddressTypeID" ColumnName="AddressTypeID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

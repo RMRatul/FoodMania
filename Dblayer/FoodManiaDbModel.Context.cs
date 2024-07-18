@@ -25,7 +25,6 @@ namespace Dblayer
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<AddressTypeTable> AddressTypeTables { get; set; }
         public virtual DbSet<DiscountTable> DiscountTables { get; set; }
         public virtual DbSet<GenderTable> GenderTables { get; set; }
         public virtual DbSet<OrderDealDetailTable> OrderDealDetailTables { get; set; }
@@ -48,5 +47,6 @@ namespace Dblayer
         public virtual DbSet<UserTypeTable> UserTypeTables { get; set; }
         public virtual DbSet<VisibleStatusTable> VisibleStatusTables { get; set; }
         public virtual DbSet<UserDetailTable> UserDetailTables { get; set; }
+        public virtual DbSet<AddressTypeTable> AddressTypeTables { get; set; }
     }
 }

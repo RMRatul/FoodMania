@@ -46,8 +46,11 @@ namespace FoodMania.Models
                 ProfileMV.EducationLastDegreePhotoPath = user.UserDetailTable.EducationLastDegreeScanPhotoPath;
                 ProfileMV.ExperenceLastPhotoPath = user.UserDetailTable.LastExperienceScanPhotoPath;
             }
+            GetUserAddress();
         }
         public virtual User_ProfileMV ProfileMV { get; set; }
+
+        public virtual List<UserAddressMV>UserAddress {  get; set; }
 
         [DataType(DataType.Password)]
         public string OldPassword { get; set; }
@@ -57,5 +60,22 @@ namespace FoodMania.Models
 
         [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
+
+
+        public void GetUserAddress()
+        {
+            UserAddress = new List<UserAddressMV>();
+            foreach (var address in db.UserAddressTables.Where(u => u.VisibleStatusID == 1).ToList())
+            {
+                UserAddress.Add(new UserAddressMV()
+                {
+                    UserAddressID = address.UserAddressID,
+                    AddressType = address.AddressTypeTable.AddressType,
+                    FullAddress = address.FullAddress,
+                    VisibleStatus = address.VisibleStatusTable.VisibleStatus,
+                    UserName = address.UserTable.Username
+                });
+            }
+        }
     }
 }

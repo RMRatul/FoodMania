@@ -106,6 +106,31 @@
                                         </div>
                                     </div>
 
+                                    @if (Model.UserAddress.Count > 0)
+                                    {
+
+                                        <div class="col-lg-6">
+                                            <div class="user-profile-offer">
+                                                <h5>Registered Addresses <a href="@Url.Content("~/Setting/List_UserAddress?id=0")">More</a></h5>
+                                                <div class="offer-body">
+                                                    @foreach (var address in Model.UserAddress)
+                                                    {
+                                                        <div class="offer-entry">
+                                                            <div class="row">
+                                                                <div class="col-md-4 col-sm-4 align-self-center offer-left text-center">
+                                                                    <p>@address.AddressType</p>
+                                                                </div>
+                                                                <div class="col-md-8 col-sm-8 offer-right">
+                                                                    <p>@address.FullAddress <a href="@Url.Content("~/Setting/List_UserAddress?id="+address.UserAddressID+"")">Edit</a></p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    }
 
                                 </div>
                             </div>

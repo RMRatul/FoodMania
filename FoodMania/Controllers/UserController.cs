@@ -55,6 +55,72 @@ namespace FoodMania.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public ActionResult ResetPassword(string recoverycode)
+        {
+
+            var forgotpassword = new ForgotPasswordMV();
+            var userrecovery = Db.UserPasswordRecoveryTables.Where(p => p.RecoveryCode == recoverycode && p.RecoveryCodeExpiryDateTime > DateTime.Now && p.RecoveryStatus == 1).FirstOrDefault();
+            if (userrecovery == null)
+            {
+                return RedirectToAction("Login");
+            }
+            var user = Db.UserTables.Find(userrecovery.UserID);
+            forgotpassword.UserID = (int)userrecovery.UserID;
+            forgotpassword.UserName = user.Username;
+            forgotpassword.EmailAddress = user.EmailAddress;
+            return View(forgotpassword);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ResetPassword(ForgotPasswordMV forgotPasswordMV)
+        {
+            using (var transaction = Db.Database.BeginTransaction())
+            {
+                try
+                {
+                    if (ModelState.IsValid)
+                    {
+                        var user = Db.UserTables.Find(forgotPasswordMV.UserID);
+                        if (user != null)
+                        {
+                            if (forgotPasswordMV.NewPassword != forgotPasswordMV.ConfirmPassword)
+                            {
+                                ModelState.AddModelError("ConfirmPassword", "Not Match!");
+                                return View(forgotPasswordMV);
+                            }
+
+                            var userrecovery = Db.UserPasswordRecoveryTables.Where(u => u.UserID == forgotPasswordMV.UserID && u.RecoveryStatus == 1);
+                            foreach (var item in userrecovery)
+                            {
+                                item.RecoveryStatus = 0;
+                                item.OldPassword = user.Password;
+                                Db.Entry(item).State = System.Data.Entity.EntityState.Modified;
+                                Db.SaveChanges();
+                            }
+                            user.Password = forgotPasswordMV.NewPassword;
+                            Db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+                            Db.SaveChanges();
+                            transaction.Commit();
+                            return RedirectToAction("Login");
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(string.Empty, "Please Try-Again!");
+                            return View(forgotPasswordMV);
+                        }
+                    }
+                    ModelState.AddModelError(string.Empty, "Fill Field's Properly!");
+                }
+                catch
+                {
+                    ModelState.AddModelError(string.Empty, "Please Try Again later.");
+                }
+            }
+            return View(forgotPasswordMV);
+        }
+
+
         public ActionResult Register()
         {
             var user = new Reg_UserMV();

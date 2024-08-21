@@ -30,7 +30,7 @@ namespace Dblayer
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderTable> OrderTables { get; set; }
         public virtual VisibleStatusTable VisibleStatusTable { get; set; }
-        public virtual UserTable UserTable { get; set; }
         public virtual AddressTypeTable AddressTypeTable { get; set; }
+        public virtual UserTable UserTable { get; set; }
     }
 }

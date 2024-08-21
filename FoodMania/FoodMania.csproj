@@ -315,6 +315,7 @@
     <Content Include="Content\Template\assets\switch-style\demo.css" />
     <Content Include="Content\Template\assets\switch-style\demo.js" />
     <Content Include="Global.asax" />
+    <Content Include="MailTemplates\ForgotPasswordConfirmation.html" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -322,16 +323,20 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SettingController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\UserRecoveryController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="HelperClass\EmailCls.cs" />
     <Compile Include="HelperClass\FileUpload.cs" />
+    <Compile Include="Models\AccountRecoveryMV.cs" />
     <Compile Include="Models\CRU_GenderMV.cs" />
     <Compile Include="Models\CRU_UserAddressMV.cs" />
     <Compile Include="Models\CRU_UserStatusMV.cs" />
     <Compile Include="Models\CRU_UserTypeMV.cs" />
     <Compile Include="Models\CRU_VisibleStatusMV.cs" />
     <Compile Include="Models\DashboardMV.cs" />
+    <Compile Include="Models\ForgotPasswordMV.cs" />
     <Compile Include="Models\GenderMV.cs" />
     <Compile Include="Models\LoginMV.cs" />
     <Compile Include="Models\Reg_UserMV.cs" />
@@ -395,6 +400,8 @@
     <Content Include="Views\User\Register.cshtml" />
     <Content Include="Views\User\Dashboard.cshtml" />
     <Content Include="Views\Setting\List_UserAddress.cshtml" />
+    <Content Include="Views\UserRecovery\AccountRecovery.cshtml" />
+    <Content Include="Views\User\ResetPassword.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -407,6 +414,7 @@
     <Folder Include="Content\OtherFiles\" />
     <Folder Include="Content\ProfilePhoto\" />
     <Folder Include="Views\Home\" />
+    <Folder Include="Views\Recovery\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dblayer\Dblayer.csproj">

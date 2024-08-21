@@ -123,6 +123,9 @@
     <Compile Include="UserDetailTable.cs">
       <DependentUpon>FoodManiaDbModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="UserPasswordRecoveryTable.cs">
+      <DependentUpon>FoodManiaDbModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="UserStatusTable.cs">
       <DependentUpon>FoodManiaDbModel.tt</DependentUpon>
     </Compile>

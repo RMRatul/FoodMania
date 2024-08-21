@@ -204,6 +204,17 @@
           <Property Name="LastExperienceScanPhotoPath" Type="varchar" MaxLength="500" />
           <Property Name="CreateBy_UserID" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="UserPasswordRecoveryTable">
+          <Key>
+            <PropertyRef Name="UserPasswordRecoveryID" />
+          </Key>
+          <Property Name="UserPasswordRecoveryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="RecoveryCode" Type="nvarchar" MaxLength="200" />
+          <Property Name="RecoveryCodeExpiryDateTime" Type="datetime" />
+          <Property Name="RecoveryStatus" Type="tinyint" />
+          <Property Name="OldPassword" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="UserStatusTable">
           <Key>
             <PropertyRef Name="UserStatusID" />
@@ -578,6 +589,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserPasswordRecoveryTable_UserTable">
+          <End Role="UserTable" Type="Self.UserTable" Multiplicity="0..1" />
+          <End Role="UserPasswordRecoveryTable" Type="Self.UserPasswordRecoveryTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UserPasswordRecoveryTable">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_UserTable_GenderTable">
           <End Role="GenderTable" Type="Self.GenderTable" Multiplicity="1" />
           <End Role="UserTable" Type="Self.UserTable" Multiplicity="*" />
@@ -634,6 +657,7 @@
           <EntitySet Name="TableReservationTable" EntityType="Self.TableReservationTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserAddressTable" EntityType="Self.UserAddressTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserDetailTable" EntityType="Self.UserDetailTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserPasswordRecoveryTable" EntityType="Self.UserPasswordRecoveryTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserStatusTable" EntityType="Self.UserStatusTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserTable" EntityType="Self.UserTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserTypeTable" EntityType="Self.UserTypeTable" Schema="dbo" store:Type="Tables" />
@@ -750,6 +774,10 @@
             <End Role="UserTable" EntitySet="UserTable" />
             <End Role="UserDetailTable" EntitySet="UserDetailTable" />
           </AssociationSet>
+          <AssociationSet Name="FK_UserPasswordRecoveryTable_UserTable" Association="Self.FK_UserPasswordRecoveryTable_UserTable">
+            <End Role="UserTable" EntitySet="UserTable" />
+            <End Role="UserPasswordRecoveryTable" EntitySet="UserPasswordRecoveryTable" />
+          </AssociationSet>
           <AssociationSet Name="FK_UserTable_GenderTable" Association="Self.FK_UserTable_GenderTable">
             <End Role="GenderTable" EntitySet="GenderTable" />
             <End Role="UserTable" EntitySet="UserTable" />
@@ -783,7 +811,7 @@
           </Key>
           <Property Name="GenderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="GenderTittle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="UserTables" Relationship="Self.FK_UserTable_GenderTable" FromRole="GenderTable" ToRole="UserTable" />
+          <NavigationProperty Name="UserTables" Relationship="FoodManiaModel.FK_UserTable_GenderTable" FromRole="GenderTable" ToRole="UserTable" />
         </EntityType>
         <EntityType Name="OrderDealDetailTable">
           <Key>
@@ -839,7 +867,7 @@
           <NavigationProperty Name="OrderStatusTable" Relationship="Self.FK_OrderTable_OrderStatusTable" FromRole="OrderTable" ToRole="OrderStatusTable" />
           <NavigationProperty Name="OrderTypeTable" Relationship="Self.FK_OrderTable_OrderTypeTable" FromRole="OrderTable" ToRole="OrderTypeTable" />
           <NavigationProperty Name="UserAddressTable" Relationship="Self.FK_OrderTable_UserAddressTable" FromRole="OrderTable" ToRole="UserAddressTable" />
-          <NavigationProperty Name="UserTable" Relationship="Self.FK_OrderTable_UserTable" FromRole="OrderTable" ToRole="UserTable" />
+          <NavigationProperty Name="UserTable" Relationship="FoodManiaModel.FK_OrderTable_UserTable" FromRole="OrderTable" ToRole="UserTable" />
         </EntityType>
         <EntityType Name="OrderTypeTable">
           <Key>
@@ -970,8 +998,8 @@
           <Property Name="ReservationStatusID" Type="Int32" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="ReservationStatusTable" Relationship="Self.FK_TableReservationTable_ReservationStatusTable" FromRole="TableReservationTable" ToRole="ReservationStatusTable" />
-          <NavigationProperty Name="UserTable" Relationship="Self.FK_TableReservationTable_Process_UserTable" FromRole="TableReservationTable" ToRole="UserTable" />
-          <NavigationProperty Name="UserTable1" Relationship="Self.FK_TableReservationTable_UserTable1" FromRole="TableReservationTable" ToRole="UserTable" />
+          <NavigationProperty Name="UserTable" Relationship="FoodManiaModel.FK_TableReservationTable_Process_UserTable" FromRole="TableReservationTable" ToRole="UserTable" />
+          <NavigationProperty Name="UserTable1" Relationship="FoodManiaModel.FK_TableReservationTable_UserTable1" FromRole="TableReservationTable" ToRole="UserTable" />
         </EntityType>
         <EntityType Name="UserAddressTable">
           <Key>
@@ -985,8 +1013,8 @@
           <Property Name="CreatedBy_UserID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="OrderTables" Relationship="Self.FK_OrderTable_UserAddressTable" FromRole="UserAddressTable" ToRole="OrderTable" />
           <NavigationProperty Name="VisibleStatusTable" Relationship="Self.FK_UserAddressTable_AddressTypeTable" FromRole="UserAddressTable" ToRole="VisibleStatusTable" />
-          <NavigationProperty Name="UserTable" Relationship="Self.FK_UserAddressTable_UserTable" FromRole="UserAddressTable" ToRole="UserTable" />
           <NavigationProperty Name="AddressTypeTable" Relationship="FoodManiaModel.FK_UserAddressTable_UserAddressTable" FromRole="UserAddressTable" ToRole="AddressTypeTable" />
+          <NavigationProperty Name="UserTable" Relationship="FoodManiaModel.FK_UserAddressTable_UserTable" FromRole="UserAddressTable" ToRole="UserTable" />
         </EntityType>
         <EntityType Name="UserStatusTable">
           <Key>
@@ -994,32 +1022,7 @@
           </Key>
           <Property Name="UserStatusID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserStatus" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="UserTables" Relationship="Self.FK_UserTable_UserStatusTable" FromRole="UserStatusTable" ToRole="UserTable" />
-        </EntityType>
-        <EntityType Name="UserTable">
-          <Key>
-            <PropertyRef Name="UserID" />
-          </Key>
-          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserTypeID" Type="Int32" Nullable="false" />
-          <Property Name="Username" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="FirstName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="LastName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="ContactNo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="EmailAddress" Type="String" MaxLength="350" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="RegisterationDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="UserStatusID" Type="Int32" Nullable="false" />
-          <Property Name="UserStatusChangeDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="GenderID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="GenderTable" Relationship="Self.FK_UserTable_GenderTable" FromRole="UserTable" ToRole="GenderTable" />
-          <NavigationProperty Name="OrderTables" Relationship="Self.FK_OrderTable_UserTable" FromRole="UserTable" ToRole="OrderTable" />
-          <NavigationProperty Name="TableReservationTables" Relationship="Self.FK_TableReservationTable_Process_UserTable" FromRole="UserTable" ToRole="TableReservationTable" />
-          <NavigationProperty Name="TableReservationTables1" Relationship="Self.FK_TableReservationTable_UserTable1" FromRole="UserTable" ToRole="TableReservationTable" />
-          <NavigationProperty Name="UserAddressTables" Relationship="Self.FK_UserAddressTable_UserTable" FromRole="UserTable" ToRole="UserAddressTable" />
-          <NavigationProperty Name="UserStatusTable" Relationship="Self.FK_UserTable_UserStatusTable" FromRole="UserTable" ToRole="UserStatusTable" />
-          <NavigationProperty Name="UserTypeTable" Relationship="Self.FK_UserTable_UserTypeTable" FromRole="UserTable" ToRole="UserTypeTable" />
-          <NavigationProperty Name="UserDetailTable" Relationship="FoodManiaModel.FK_UserDetailTable_UserTable" FromRole="UserTable" ToRole="UserDetailTable" />
+          <NavigationProperty Name="UserTables" Relationship="FoodManiaModel.FK_UserTable_UserStatusTable" FromRole="UserStatusTable" ToRole="UserTable" />
         </EntityType>
         <EntityType Name="UserTypeTable">
           <Key>
@@ -1027,7 +1030,7 @@
           </Key>
           <Property Name="UserTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserType" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="UserTables" Relationship="Self.FK_UserTable_UserTypeTable" FromRole="UserTypeTable" ToRole="UserTable" />
+          <NavigationProperty Name="UserTables" Relationship="FoodManiaModel.FK_UserTable_UserTypeTable" FromRole="UserTypeTable" ToRole="UserTable" />
         </EntityType>
         <EntityType Name="VisibleStatusTable">
           <Key>
@@ -1051,18 +1054,6 @@
             </Principal>
             <Dependent Role="OrderItemDetailTable">
               <PropertyRef Name="DiscountID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_UserTable_GenderTable">
-          <End Role="GenderTable" Type="Self.GenderTable" Multiplicity="1" />
-          <End Role="UserTable" Type="Self.UserTable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GenderTable">
-              <PropertyRef Name="GenderID" />
-            </Principal>
-            <Dependent Role="UserTable">
-              <PropertyRef Name="GenderID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1147,18 +1138,6 @@
             </Principal>
             <Dependent Role="OrderTable">
               <PropertyRef Name="DeliveryAddress_UserAddressID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrderTable_UserTable">
-          <End Role="UserTable" Type="Self.UserTable" Multiplicity="1" />
-          <End Role="OrderTable" Type="Self.OrderTable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserTable">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="OrderTable">
-              <PropertyRef Name="OrderBy_UserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1318,30 +1297,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TableReservationTable_Process_UserTable">
-          <End Role="UserTable" Type="Self.UserTable" Multiplicity="1" />
-          <End Role="TableReservationTable" Type="Self.TableReservationTable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserTable">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="TableReservationTable">
-              <PropertyRef Name="ProcessBy_UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TableReservationTable_UserTable1">
-          <End Role="UserTable" Type="Self.UserTable" Multiplicity="1" />
-          <End Role="TableReservationTable" Type="Self.TableReservationTable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserTable">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="TableReservationTable">
-              <PropertyRef Name="ProcessBy_UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_UserAddressTable_AddressTypeTable">
           <End Role="VisibleStatusTable" Type="Self.VisibleStatusTable" Multiplicity="1" />
           <End Role="UserAddressTable" Type="Self.UserAddressTable" Multiplicity="*" />
@@ -1351,42 +1306,6 @@
             </Principal>
             <Dependent Role="UserAddressTable">
               <PropertyRef Name="VisibleStatusID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_UserAddressTable_UserTable">
-          <End Role="UserTable" Type="Self.UserTable" Multiplicity="1" />
-          <End Role="UserAddressTable" Type="Self.UserAddressTable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserTable">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="UserAddressTable">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_UserTable_UserStatusTable">
-          <End Role="UserStatusTable" Type="Self.UserStatusTable" Multiplicity="1" />
-          <End Role="UserTable" Type="Self.UserTable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserStatusTable">
-              <PropertyRef Name="UserStatusID" />
-            </Principal>
-            <Dependent Role="UserTable">
-              <PropertyRef Name="UserStatusID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_UserTable_UserTypeTable">
-          <End Role="UserTypeTable" Type="Self.UserTypeTable" Multiplicity="1" />
-          <End Role="UserTable" Type="Self.UserTable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserTypeTable">
-              <PropertyRef Name="UserTypeID" />
-            </Principal>
-            <Dependent Role="UserTable">
-              <PropertyRef Name="UserTypeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1409,16 +1328,11 @@
           <EntitySet Name="TableReservationTables" EntityType="Self.TableReservationTable" />
           <EntitySet Name="UserAddressTables" EntityType="Self.UserAddressTable" />
           <EntitySet Name="UserStatusTables" EntityType="Self.UserStatusTable" />
-          <EntitySet Name="UserTables" EntityType="Self.UserTable" />
           <EntitySet Name="UserTypeTables" EntityType="Self.UserTypeTable" />
           <EntitySet Name="VisibleStatusTables" EntityType="Self.VisibleStatusTable" />
           <AssociationSet Name="FK_OrderItemDetailTable_DiscountTable" Association="Self.FK_OrderItemDetailTable_DiscountTable">
             <End Role="DiscountTable" EntitySet="DiscountTables" />
             <End Role="OrderItemDetailTable" EntitySet="OrderItemDetailTables" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UserTable_GenderTable" Association="Self.FK_UserTable_GenderTable">
-            <End Role="GenderTable" EntitySet="GenderTables" />
-            <End Role="UserTable" EntitySet="UserTables" />
           </AssociationSet>
           <AssociationSet Name="FK_OrderDealDetailTable_OrderTable" Association="Self.FK_OrderDealDetailTable_OrderTable">
             <End Role="OrderTable" EntitySet="OrderTables" />
@@ -1446,10 +1360,6 @@
           </AssociationSet>
           <AssociationSet Name="FK_OrderTable_UserAddressTable" Association="Self.FK_OrderTable_UserAddressTable">
             <End Role="UserAddressTable" EntitySet="UserAddressTables" />
-            <End Role="OrderTable" EntitySet="OrderTables" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderTable_UserTable" Association="Self.FK_OrderTable_UserTable">
-            <End Role="UserTable" EntitySet="UserTables" />
             <End Role="OrderTable" EntitySet="OrderTables" />
           </AssociationSet>
           <AssociationSet Name="FK_StockItemTable_OrderTypeTable" Association="Self.FK_StockItemTable_OrderTypeTable">
@@ -1504,41 +1414,55 @@
             <End Role="VisibleStatusTable" EntitySet="VisibleStatusTables" />
             <End Role="StockMenuItemTable" EntitySet="StockMenuItemTables" />
           </AssociationSet>
-          <AssociationSet Name="FK_TableReservationTable_Process_UserTable" Association="Self.FK_TableReservationTable_Process_UserTable">
-            <End Role="UserTable" EntitySet="UserTables" />
-            <End Role="TableReservationTable" EntitySet="TableReservationTables" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TableReservationTable_UserTable1" Association="Self.FK_TableReservationTable_UserTable1">
-            <End Role="UserTable" EntitySet="UserTables" />
-            <End Role="TableReservationTable" EntitySet="TableReservationTables" />
-          </AssociationSet>
           <AssociationSet Name="FK_UserAddressTable_AddressTypeTable" Association="Self.FK_UserAddressTable_AddressTypeTable">
             <End Role="VisibleStatusTable" EntitySet="VisibleStatusTables" />
             <End Role="UserAddressTable" EntitySet="UserAddressTables" />
           </AssociationSet>
-          <AssociationSet Name="FK_UserAddressTable_UserTable" Association="Self.FK_UserAddressTable_UserTable">
-            <End Role="UserTable" EntitySet="UserTables" />
-            <End Role="UserAddressTable" EntitySet="UserAddressTables" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UserTable_UserStatusTable" Association="Self.FK_UserTable_UserStatusTable">
-            <End Role="UserStatusTable" EntitySet="UserStatusTables" />
-            <End Role="UserTable" EntitySet="UserTables" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UserTable_UserTypeTable" Association="Self.FK_UserTable_UserTypeTable">
-            <End Role="UserTypeTable" EntitySet="UserTypeTables" />
-            <End Role="UserTable" EntitySet="UserTables" />
-          </AssociationSet>
           <EntitySet Name="UserDetailTables" EntityType="FoodManiaModel.UserDetailTable" />
-          <AssociationSet Name="FK_UserDetailTable_UserTable" Association="FoodManiaModel.FK_UserDetailTable_UserTable">
-            <End Role="UserTable" EntitySet="UserTables" />
-            <End Role="UserDetailTable" EntitySet="UserDetailTables" />
-          </AssociationSet>
           <EntitySet Name="AddressTypeTables" EntityType="FoodManiaModel.AddressTypeTable" />
           <AssociationSet Name="FK_UserAddressTable_UserAddressTable" Association="FoodManiaModel.FK_UserAddressTable_UserAddressTable">
             <End Role="AddressTypeTable" EntitySet="AddressTypeTables" />
             <End Role="UserAddressTable" EntitySet="UserAddressTables" />
           </AssociationSet>
-        </EntityContainer>
+          <EntitySet Name="UserPasswordRecoveryTables" EntityType="FoodManiaModel.UserPasswordRecoveryTable" />
+          <EntitySet Name="UserTables" EntityType="FoodManiaModel.UserTable" />
+          <AssociationSet Name="FK_UserTable_GenderTable" Association="FoodManiaModel.FK_UserTable_GenderTable">
+            <End Role="GenderTable" EntitySet="GenderTables" />
+            <End Role="UserTable" EntitySet="UserTables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderTable_UserTable" Association="FoodManiaModel.FK_OrderTable_UserTable">
+            <End Role="UserTable" EntitySet="UserTables" />
+            <End Role="OrderTable" EntitySet="OrderTables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TableReservationTable_Process_UserTable" Association="FoodManiaModel.FK_TableReservationTable_Process_UserTable">
+            <End Role="UserTable" EntitySet="UserTables" />
+            <End Role="TableReservationTable" EntitySet="TableReservationTables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TableReservationTable_UserTable1" Association="FoodManiaModel.FK_TableReservationTable_UserTable1">
+            <End Role="UserTable" EntitySet="UserTables" />
+            <End Role="TableReservationTable" EntitySet="TableReservationTables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAddressTable_UserTable" Association="FoodManiaModel.FK_UserAddressTable_UserTable">
+            <End Role="UserTable" EntitySet="UserTables" />
+            <End Role="UserAddressTable" EntitySet="UserAddressTables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserDetailTable_UserTable" Association="FoodManiaModel.FK_UserDetailTable_UserTable">
+            <End Role="UserTable" EntitySet="UserTables" />
+            <End Role="UserDetailTable" EntitySet="UserDetailTables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserPasswordRecoveryTable_UserTable" Association="FoodManiaModel.FK_UserPasswordRecoveryTable_UserTable">
+            <End Role="UserTable" EntitySet="UserTables" />
+            <End Role="UserPasswordRecoveryTable" EntitySet="UserPasswordRecoveryTables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserTable_UserStatusTable" Association="FoodManiaModel.FK_UserTable_UserStatusTable">
+            <End Role="UserStatusTable" EntitySet="UserStatusTables" />
+            <End Role="UserTable" EntitySet="UserTables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserTable_UserTypeTable" Association="FoodManiaModel.FK_UserTable_UserTypeTable">
+            <End Role="UserTypeTable" EntitySet="UserTypeTables" />
+            <End Role="UserTable" EntitySet="UserTables" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="UserDetailTable">
           <Key>
             <PropertyRef Name="UserDetailID" />
@@ -1554,18 +1478,6 @@
           <Property Name="CreateBy_UserID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="UserTable" Relationship="FoodManiaModel.FK_UserDetailTable_UserTable" FromRole="UserDetailTable" ToRole="UserTable" />
         </EntityType>
-        <Association Name="FK_UserDetailTable_UserTable">
-          <End Type="FoodManiaModel.UserTable" Role="UserTable" Multiplicity="1" />
-          <End Type="FoodManiaModel.UserDetailTable" Role="UserDetailTable" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="UserTable">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="UserDetailTable">
-              <PropertyRef Name="UserDetailID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="AddressTypeTable">
           <Key>
             <PropertyRef Name="AddressTypeID" />
@@ -1587,7 +1499,153 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <EntityType Name="UserPasswordRecoveryTable">
+          <Key>
+            <PropertyRef Name="UserPasswordRecoveryID" />
+          </Key>
+          <Property Name="UserPasswordRecoveryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="RecoveryCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="RecoveryCodeExpiryDateTime" Type="DateTime" Precision="3" />
+          <Property Name="RecoveryStatus" Type="Byte" />
+          <Property Name="OldPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UserTable" Relationship="FoodManiaModel.FK_UserPasswordRecoveryTable_UserTable" FromRole="UserPasswordRecoveryTable" ToRole="UserTable" />
+        </EntityType>
+        <EntityType Name="UserTable">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserTypeID" Type="Int32" Nullable="false" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ContactNo" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="EmailAddress" Type="String" Nullable="false" MaxLength="350" FixedLength="false" Unicode="true" />
+          <Property Name="RegisterationDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="UserStatusID" Type="Int32" Nullable="false" />
+          <Property Name="UserStatusChangeDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="GenderID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="GenderTable" Relationship="FoodManiaModel.FK_UserTable_GenderTable" FromRole="UserTable" ToRole="GenderTable" />
+          <NavigationProperty Name="OrderTables" Relationship="FoodManiaModel.FK_OrderTable_UserTable" FromRole="UserTable" ToRole="OrderTable" />
+          <NavigationProperty Name="TableReservationTables" Relationship="FoodManiaModel.FK_TableReservationTable_Process_UserTable" FromRole="UserTable" ToRole="TableReservationTable" />
+          <NavigationProperty Name="TableReservationTables1" Relationship="FoodManiaModel.FK_TableReservationTable_UserTable1" FromRole="UserTable" ToRole="TableReservationTable" />
+          <NavigationProperty Name="UserAddressTables" Relationship="FoodManiaModel.FK_UserAddressTable_UserTable" FromRole="UserTable" ToRole="UserAddressTable" />
+          <NavigationProperty Name="UserDetailTable" Relationship="FoodManiaModel.FK_UserDetailTable_UserTable" FromRole="UserTable" ToRole="UserDetailTable" />
+          <NavigationProperty Name="UserPasswordRecoveryTables" Relationship="FoodManiaModel.FK_UserPasswordRecoveryTable_UserTable" FromRole="UserTable" ToRole="UserPasswordRecoveryTable" />
+          <NavigationProperty Name="UserStatusTable" Relationship="FoodManiaModel.FK_UserTable_UserStatusTable" FromRole="UserTable" ToRole="UserStatusTable" />
+          <NavigationProperty Name="UserTypeTable" Relationship="FoodManiaModel.FK_UserTable_UserTypeTable" FromRole="UserTable" ToRole="UserTypeTable" />
+        </EntityType>
+        <Association Name="FK_UserTable_GenderTable">
+          <End Type="FoodManiaModel.GenderTable" Role="GenderTable" Multiplicity="1" />
+          <End Type="FoodManiaModel.UserTable" Role="UserTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GenderTable">
+              <PropertyRef Name="GenderID" />
+            </Principal>
+            <Dependent Role="UserTable">
+              <PropertyRef Name="GenderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderTable_UserTable">
+          <End Type="FoodManiaModel.UserTable" Role="UserTable" Multiplicity="1" />
+          <End Type="FoodManiaModel.OrderTable" Role="OrderTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="OrderTable">
+              <PropertyRef Name="OrderBy_UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TableReservationTable_Process_UserTable">
+          <End Type="FoodManiaModel.UserTable" Role="UserTable" Multiplicity="1" />
+          <End Type="FoodManiaModel.TableReservationTable" Role="TableReservationTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="TableReservationTable">
+              <PropertyRef Name="ProcessBy_UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TableReservationTable_UserTable1">
+          <End Type="FoodManiaModel.UserTable" Role="UserTable" Multiplicity="1" />
+          <End Type="FoodManiaModel.TableReservationTable" Role="TableReservationTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="TableReservationTable">
+              <PropertyRef Name="ProcessBy_UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserAddressTable_UserTable">
+          <End Type="FoodManiaModel.UserTable" Role="UserTable" Multiplicity="1" />
+          <End Type="FoodManiaModel.UserAddressTable" Role="UserAddressTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UserAddressTable">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserDetailTable_UserTable">
+          <End Type="FoodManiaModel.UserTable" Role="UserTable" Multiplicity="1" />
+          <End Type="FoodManiaModel.UserDetailTable" Role="UserDetailTable" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UserDetailTable">
+              <PropertyRef Name="UserDetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserPasswordRecoveryTable_UserTable">
+          <End Type="FoodManiaModel.UserTable" Role="UserTable" Multiplicity="0..1" />
+          <End Type="FoodManiaModel.UserPasswordRecoveryTable" Role="UserPasswordRecoveryTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UserPasswordRecoveryTable">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserTable_UserStatusTable">
+          <End Type="FoodManiaModel.UserStatusTable" Role="UserStatusTable" Multiplicity="1" />
+          <End Type="FoodManiaModel.UserTable" Role="UserTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserStatusTable">
+              <PropertyRef Name="UserStatusID" />
+            </Principal>
+            <Dependent Role="UserTable">
+              <PropertyRef Name="UserStatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserTable_UserTypeTable">
+          <End Type="FoodManiaModel.UserTypeTable" Role="UserTypeTable" Multiplicity="1" />
+          <End Type="FoodManiaModel.UserTable" Role="UserTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTypeTable">
+              <PropertyRef Name="UserTypeID" />
+            </Principal>
+            <Dependent Role="UserTable">
+              <PropertyRef Name="UserTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -1795,24 +1853,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="UserTables">
-            <EntityTypeMapping TypeName="FoodManiaModel.UserTable">
-              <MappingFragment StoreEntitySet="UserTable">
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="UserTypeID" ColumnName="UserTypeID" />
-                <ScalarProperty Name="Username" ColumnName="Username" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
-                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
-                <ScalarProperty Name="RegisterationDate" ColumnName="RegisterationDate" />
-                <ScalarProperty Name="UserStatusID" ColumnName="UserStatusID" />
-                <ScalarProperty Name="UserStatusChangeDate" ColumnName="UserStatusChangeDate" />
-                <ScalarProperty Name="GenderID" ColumnName="GenderID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="UserTypeTables">
             <EntityTypeMapping TypeName="FoodManiaModel.UserTypeTable">
               <MappingFragment StoreEntitySet="UserTypeTable">
@@ -1850,6 +1890,36 @@
                 <ScalarProperty Name="CreatedBy_UserID" ColumnName="CreatedBy_UserID" />
                 <ScalarProperty Name="AddressType" ColumnName="AddressType" />
                 <ScalarProperty Name="AddressTypeID" ColumnName="AddressTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserPasswordRecoveryTables">
+            <EntityTypeMapping TypeName="FoodManiaModel.UserPasswordRecoveryTable">
+              <MappingFragment StoreEntitySet="UserPasswordRecoveryTable">
+                <ScalarProperty Name="OldPassword" ColumnName="OldPassword" />
+                <ScalarProperty Name="RecoveryStatus" ColumnName="RecoveryStatus" />
+                <ScalarProperty Name="RecoveryCodeExpiryDateTime" ColumnName="RecoveryCodeExpiryDateTime" />
+                <ScalarProperty Name="RecoveryCode" ColumnName="RecoveryCode" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="UserPasswordRecoveryID" ColumnName="UserPasswordRecoveryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserTables">
+            <EntityTypeMapping TypeName="FoodManiaModel.UserTable">
+              <MappingFragment StoreEntitySet="UserTable">
+                <ScalarProperty Name="GenderID" ColumnName="GenderID" />
+                <ScalarProperty Name="UserStatusChangeDate" ColumnName="UserStatusChangeDate" />
+                <ScalarProperty Name="UserStatusID" ColumnName="UserStatusID" />
+                <ScalarProperty Name="RegisterationDate" ColumnName="RegisterationDate" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="UserTypeID" ColumnName="UserTypeID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

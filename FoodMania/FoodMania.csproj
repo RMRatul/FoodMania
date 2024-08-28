@@ -334,6 +334,7 @@
     <Compile Include="Models\CRU_ OrderTypeMV.cs" />
     <Compile Include="Models\CRU_ StockItemCategoryMV.cs" />
     <Compile Include="Models\CRU_GenderMV.cs" />
+    <Compile Include="Models\CRU_StockMenuCategoryMV.cs" />
     <Compile Include="Models\CRU_UserAddressMV.cs" />
     <Compile Include="Models\CRU_UserStatusMV.cs" />
     <Compile Include="Models\CRU_UserTypeMV.cs" />
@@ -345,6 +346,7 @@
     <Compile Include="Models\OrderTypeMV.cs" />
     <Compile Include="Models\Reg_UserMV.cs" />
     <Compile Include="Models\StockItemCategoryMV.cs" />
+    <Compile Include="Models\StockMenuCategoryMV.cs" />
     <Compile Include="Models\UserAddressMV.cs" />
     <Compile Include="Models\UserStatusMV.cs" />
     <Compile Include="Models\UserTypeMV.cs" />
@@ -409,6 +411,7 @@
     <Content Include="Views\User\ResetPassword.cshtml" />
     <Content Include="Views\Stock\StockItemCategory.cshtml" />
     <Content Include="Views\Stock\OrderType.cshtml" />
+    <Content Include="Views\Stock\StockMenuCategory.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

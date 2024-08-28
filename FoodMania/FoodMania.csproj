@@ -322,6 +322,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SettingController.cs" />
+    <Compile Include="Controllers\StockController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UserRecoveryController.cs" />
     <Compile Include="Global.asax.cs">
@@ -330,6 +331,7 @@
     <Compile Include="HelperClass\EmailCls.cs" />
     <Compile Include="HelperClass\FileUpload.cs" />
     <Compile Include="Models\AccountRecoveryMV.cs" />
+    <Compile Include="Models\CRU_ StockItemCategoryMV.cs" />
     <Compile Include="Models\CRU_GenderMV.cs" />
     <Compile Include="Models\CRU_UserAddressMV.cs" />
     <Compile Include="Models\CRU_UserStatusMV.cs" />
@@ -340,6 +342,7 @@
     <Compile Include="Models\GenderMV.cs" />
     <Compile Include="Models\LoginMV.cs" />
     <Compile Include="Models\Reg_UserMV.cs" />
+    <Compile Include="Models\StockItemCategoryMV.cs" />
     <Compile Include="Models\UserAddressMV.cs" />
     <Compile Include="Models\UserStatusMV.cs" />
     <Compile Include="Models\UserTypeMV.cs" />
@@ -402,6 +405,7 @@
     <Content Include="Views\Setting\List_UserAddress.cshtml" />
     <Content Include="Views\UserRecovery\AccountRecovery.cshtml" />
     <Content Include="Views\User\ResetPassword.cshtml" />
+    <Content Include="Views\Stock\StockItemCategory.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

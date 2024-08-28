@@ -151,6 +151,25 @@
                                                     </div>
                                                 </li>
                                             }
+                                            @if (userid > 0)  //admin
+                                            {
+                                                <li class="nav-item dropdown">
+                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Stock</a>
+                                                    <div class="dropdown-menu">
+                                                        <div class="dropdown-inner">
+                                                            <ul class="list-unstyled">
+                                                                @if (usertypeid == 1 || usertypeid == 3)
+                                                                {
+
+                                                                    <li><a href="@Url.Content("~/Stock/StockItemCategory")">Stock Categories</a></li>
+                                                                }
+
+                                                                
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            }
                                             <li class="nav-item"><a href="#">Our Blog</a></li>
                                             <li class="nav-item"><a href="#">contact us</a></li>
                                         </ul>

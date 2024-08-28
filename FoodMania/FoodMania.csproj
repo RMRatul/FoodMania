@@ -331,6 +331,7 @@
     <Compile Include="HelperClass\EmailCls.cs" />
     <Compile Include="HelperClass\FileUpload.cs" />
     <Compile Include="Models\AccountRecoveryMV.cs" />
+    <Compile Include="Models\CRU_ OrderTypeMV.cs" />
     <Compile Include="Models\CRU_ StockItemCategoryMV.cs" />
     <Compile Include="Models\CRU_GenderMV.cs" />
     <Compile Include="Models\CRU_UserAddressMV.cs" />
@@ -341,6 +342,7 @@
     <Compile Include="Models\ForgotPasswordMV.cs" />
     <Compile Include="Models\GenderMV.cs" />
     <Compile Include="Models\LoginMV.cs" />
+    <Compile Include="Models\OrderTypeMV.cs" />
     <Compile Include="Models\Reg_UserMV.cs" />
     <Compile Include="Models\StockItemCategoryMV.cs" />
     <Compile Include="Models\UserAddressMV.cs" />
@@ -406,6 +408,7 @@
     <Content Include="Views\UserRecovery\AccountRecovery.cshtml" />
     <Content Include="Views\User\ResetPassword.cshtml" />
     <Content Include="Views\Stock\StockItemCategory.cshtml" />
+    <Content Include="Views\Stock\OrderType.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -84,5 +84,62 @@ namespace FoodMania.Controllers
             return View(stockcategory); 
         }
 
+        public ActionResult OrderType(int? id)
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserTypeID"])))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            var ordertype =new CRU__OrderTypeMV(id);
+            return View(ordertype);
+
+        }
+
+        [HttpPost]
+        public ActionResult OrderType(CRU__OrderTypeMV orderTypeMV)
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserTypeID"])))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            if(ModelState.IsValid)
+            {
+                if (orderTypeMV.OrderTypeID == 0)
+                {
+                    var checkexist = Db.OrderTypeTables.Where(o => o.OrderType.Trim().ToUpper() == orderTypeMV.OrderType.Trim().ToUpper()).FirstOrDefault();
+                    if (checkexist == null)
+                    {
+                        var newordertype = new OrderTypeTable();
+                        newordertype.OrderType = orderTypeMV.OrderType;
+                        Db.OrderTypeTables.Add(newordertype);
+                        Db.SaveChanges();
+                        return RedirectToAction("OrderType", new { id = 0 });
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("OrderType", "Already Exist!");
+                    }
+                }
+                else
+                {
+                    var checkexist = Db.OrderTypeTables.Where(o => o.OrderType.Trim().ToUpper() == orderTypeMV.OrderType.Trim().ToUpper() && o.OrderTypeID !=orderTypeMV.OrderTypeID).FirstOrDefault();
+                    if (checkexist == null)
+                    {
+                        var editordertype = Db.OrderTypeTables.Find(orderTypeMV.OrderTypeID);
+                        editordertype.OrderType = orderTypeMV.OrderType;
+                        Db.Entry(editordertype).State=System.Data.Entity.EntityState.Modified;
+                        Db.SaveChanges();
+                        return RedirectToAction("OrderType", new { id = 0 });
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("OrderType", "Already Exist!");
+                    }
+                }
+            }
+            return View(orderTypeMV);
+        }
+
     }
 }

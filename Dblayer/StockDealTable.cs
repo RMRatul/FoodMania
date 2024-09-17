@@ -25,10 +25,11 @@ namespace Dblayer
         public string StockDealTitle { get; set; }
         public double DealPrice { get; set; }
         public int VisibleStatusID { get; set; }
-        public System.DateTime StockDealStartDate { get; set; }
-        public double Discount { get; set; }
-        public System.DateTime StockDealEndDate { get; set; }
+        public Nullable<System.DateTime> StockDealStartDate { get; set; }
+        public Nullable<double> Discount { get; set; }
+        public Nullable<System.DateTime> StockDealEndDate { get; set; }
         public System.DateTime StockDealRegisterDate { get; set; }
+        public string DealPhoto { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDealDetailTable> OrderDealDetailTables { get; set; }

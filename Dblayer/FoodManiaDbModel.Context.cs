@@ -33,8 +33,6 @@ namespace Dblayer
         public virtual DbSet<OrderTable> OrderTables { get; set; }
         public virtual DbSet<OrderTypeTable> OrderTypeTables { get; set; }
         public virtual DbSet<ReservationStatusTable> ReservationStatusTables { get; set; }
-        public virtual DbSet<StockDealDetailTable> StockDealDetailTables { get; set; }
-        public virtual DbSet<StockDealTable> StockDealTables { get; set; }
         public virtual DbSet<StockItemCategoryTable> StockItemCategoryTables { get; set; }
         public virtual DbSet<StockItemIngredientTable> StockItemIngredientTables { get; set; }
         public virtual DbSet<StockItemTable> StockItemTables { get; set; }
@@ -49,5 +47,10 @@ namespace Dblayer
         public virtual DbSet<AddressTypeTable> AddressTypeTables { get; set; }
         public virtual DbSet<UserPasswordRecoveryTable> UserPasswordRecoveryTables { get; set; }
         public virtual DbSet<UserTable> UserTables { get; set; }
+        public virtual DbSet<StockDealDetailTable> StockDealDetailTables { get; set; }
+        public virtual DbSet<StockDealTable> StockDealTables { get; set; }
+        public virtual DbSet<BookingStatusTable> BookingStatusTables { get; set; }
+        public virtual DbSet<BookingTblTable> BookingTblTables { get; set; }
+        public virtual DbSet<SubscribeEmailTable> SubscribeEmailTables { get; set; }
     }
 }

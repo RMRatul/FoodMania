@@ -53,6 +53,12 @@
     <Compile Include="AddressTypeTable.cs">
       <DependentUpon>FoodManiaDbModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="BookingStatusTable.cs">
+      <DependentUpon>FoodManiaDbModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BookingTblTable.cs">
+      <DependentUpon>FoodManiaDbModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DiscountTable.cs">
       <DependentUpon>FoodManiaDbModel.tt</DependentUpon>
     </Compile>
@@ -112,6 +118,9 @@
       <DependentUpon>FoodManiaDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="StockMenuItemTable.cs">
+      <DependentUpon>FoodManiaDbModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SubscribeEmailTable.cs">
       <DependentUpon>FoodManiaDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="TableReservationTable.cs">

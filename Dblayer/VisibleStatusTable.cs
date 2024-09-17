@@ -17,21 +17,17 @@ namespace Dblayer
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public VisibleStatusTable()
         {
-            this.StockDealDetailTables = new HashSet<StockDealDetailTable>();
-            this.StockDealTables = new HashSet<StockDealTable>();
             this.StockItemCategoryTables = new HashSet<StockItemCategoryTable>();
             this.StockItemTables = new HashSet<StockItemTable>();
             this.StockMenuItemTables = new HashSet<StockMenuItemTable>();
             this.UserAddressTables = new HashSet<UserAddressTable>();
+            this.StockDealDetailTables = new HashSet<StockDealDetailTable>();
+            this.StockDealTables = new HashSet<StockDealTable>();
         }
     
         public int VisibleStatusID { get; set; }
         public string VisibleStatus { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<StockDealDetailTable> StockDealDetailTables { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<StockDealTable> StockDealTables { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StockItemCategoryTable> StockItemCategoryTables { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -40,5 +36,9 @@ namespace Dblayer
         public virtual ICollection<StockMenuItemTable> StockMenuItemTables { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserAddressTable> UserAddressTables { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<StockDealDetailTable> StockDealDetailTables { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<StockDealTable> StockDealTables { get; set; }
     }
 }

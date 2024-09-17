@@ -129,6 +129,7 @@
                                             <li class="nav-item"><a href="@Url.Content("~/Home/Index")">HOME</a></li>
                                             <li class="nav-item"><a href="#">about us</a></li>
                                             <li class="nav-item"><a href="#">Our Menu</a></li>
+                                            <li class="nav-item"><a href="@Url.Content("~/Home/AllItems")">Our Shop</a></li>
                                             @if (userid > 0)  //admin
                                             {
                                                 <li class="nav-item dropdown">
@@ -158,19 +159,26 @@
                                                     <div class="dropdown-menu">
                                                         <div class="dropdown-inner">
                                                             <ul class="list-unstyled">
-                                                                @if (usertypeid == 1 || usertypeid == 3)
+                                                                @if (usertypeid == 1 || usertypeid == 3) //Admin or sub admin
                                                                 {
 
                                                                     <li><a href="@Url.Content("~/Stock/StockItemCategory")">Stock Categories</a></li>
                                                                     <li><a href="@Url.Content("~/Stock/OrderType?id=0")">Order Types</a></li>
                                                                     <li><a href="@Url.Content("~/Stock/StockMenuCategory?id=0")">Menu Categories</a></li>
+                                                                    <li><a href="@Url.Content("~/Stock/StockItem?id=0")">Stock Items</a></li>
+                                                                    <li><a href="@Url.Content("~/Stock/StockMenu?id=0")">Menu</a></li>
+                                                                    <li><a href="@Url.Content("~/Stock/StockDeal?id=0")">Deals</a></li>
                                                                 }
 
-                                                                
+
                                                             </ul>
                                                         </div>
                                                     </div>
                                                 </li>
+                                            }
+                                            @if (userid > 0)
+                                            {
+                                                <li class="nav-item"><a href="@Url.Content("~/TableReservation/BookingTables?id=0")">Reservation</a></li>
                                             }
                                             <li class="nav-item"><a href="#">Our Blog</a></li>
                                             <li class="nav-item"><a href="#">contact us</a></li>
@@ -181,7 +189,7 @@
                             <!-- Main Menu End -->
                         </div>
                         <div class="col-md-2 col-sm-12 col-12 button-top paddleft">
-                            <a class="btn-primary btn" href='reservation.html'>Book Your Table</a>
+                            <a class="btn-primary btn" href="@Url.Content("~/Home/Index#reservationtable")">Book Your Table</a>
                         </div>
                     </div>
                 </div>
@@ -295,4 +303,4 @@
     </body>
 
 </html>
-    }
+}

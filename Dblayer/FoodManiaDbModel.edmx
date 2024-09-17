@@ -13,6 +13,29 @@
           <Property Name="AddressType" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="CreatedBy_UserID" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="BookingStatusTable">
+          <Key>
+            <PropertyRef Name="BookingStatusID" />
+          </Key>
+          <Property Name="BookingStatusID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BookingStatus" Type="nvarchar" MaxLength="500" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BookingTblTable">
+          <Key>
+            <PropertyRef Name="BookingTableID" />
+          </Key>
+          <Property Name="BookingTableID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BookingUserID" Type="int" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="EmailAddress" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MobileNo" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="BookingDate" Type="datetime" Nullable="false" />
+          <Property Name="ReservationDateTime" Type="datetime" Nullable="false" />
+          <Property Name="NoOfPersons" Type="int" Nullable="false" />
+          <Property Name="ProcessBy_UserID" Type="int" Nullable="false" />
+          <Property Name="BookingStatusID" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" Nullable="false" />
+        </EntityType>
         <EntityType Name="DiscountTable">
           <Key>
             <PropertyRef Name="DiscountID" />
@@ -97,6 +120,7 @@
           <Property Name="Discount" Type="float" Nullable="false" />
           <Property Name="VisibleStatusID" Type="int" Nullable="false" />
           <Property Name="CreatedBy_UserID" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="StockDealTable">
           <Key>
@@ -106,10 +130,11 @@
           <Property Name="StockDealTitle" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="DealPrice" Type="float" Nullable="false" />
           <Property Name="VisibleStatusID" Type="int" Nullable="false" />
-          <Property Name="StockDealStartDate" Type="date" Nullable="false" />
-          <Property Name="Discount" Type="float" Nullable="false" />
-          <Property Name="StockDealEndDate" Type="date" Nullable="false" />
+          <Property Name="StockDealStartDate" Type="date" />
+          <Property Name="Discount" Type="float" />
+          <Property Name="StockDealEndDate" Type="date" />
           <Property Name="StockDealRegisterDate" Type="date" Nullable="false" />
+          <Property Name="DealPhoto" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="StockItemCategoryTable">
           <Key>
@@ -162,6 +187,14 @@
           <Property Name="StockItemID" Type="int" Nullable="false" />
           <Property Name="VisibleStatusID" Type="int" Nullable="false" />
           <Property Name="CreatedBy_UserID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SubscribeEmailTable">
+          <Key>
+            <PropertyRef Name="SubscribeEmailID" />
+          </Key>
+          <Property Name="SubscribeEmailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SubscribeEmailAddress" Type="varchar" MaxLength="350" Nullable="false" />
+          <Property Name="SubscribeStatus" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="TableReservationTable">
           <Key>
@@ -253,6 +286,30 @@
           <Property Name="VisibleStatusID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="VisibleStatus" Type="nvarchar" MaxLength="150" Nullable="false" />
         </EntityType>
+        <Association Name="FK_BookingTblTable_BookingStatusTable">
+          <End Role="BookingStatusTable" Type="Self.BookingStatusTable" Multiplicity="1" />
+          <End Role="BookingTblTable" Type="Self.BookingTblTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BookingStatusTable">
+              <PropertyRef Name="BookingStatusID" />
+            </Principal>
+            <Dependent Role="BookingTblTable">
+              <PropertyRef Name="BookingStatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BookingTblTable_UserTable">
+          <End Role="UserTable" Type="Self.UserTable" Multiplicity="1" />
+          <End Role="BookingTblTable" Type="Self.BookingTblTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="BookingTblTable">
+              <PropertyRef Name="BookingUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_OrderDealDetailTable_OrderTable">
           <End Role="OrderTable" Type="Self.OrderTable" Multiplicity="1" />
           <End Role="OrderDealDetailTable" Type="Self.OrderDealDetailTable" Multiplicity="*" />
@@ -639,6 +696,8 @@
         </Association>
         <EntityContainer Name="FoodManiaModelStoreContainer">
           <EntitySet Name="AddressTypeTable" EntityType="Self.AddressTypeTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BookingStatusTable" EntityType="Self.BookingStatusTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BookingTblTable" EntityType="Self.BookingTblTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DiscountTable" EntityType="Self.DiscountTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GenderTable" EntityType="Self.GenderTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrderDealDetailTable" EntityType="Self.OrderDealDetailTable" Schema="dbo" store:Type="Tables" />
@@ -654,6 +713,7 @@
           <EntitySet Name="StockItemTable" EntityType="Self.StockItemTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StockMenuCategoryTable" EntityType="Self.StockMenuCategoryTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StockMenuItemTable" EntityType="Self.StockMenuItemTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubscribeEmailTable" EntityType="Self.SubscribeEmailTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TableReservationTable" EntityType="Self.TableReservationTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserAddressTable" EntityType="Self.UserAddressTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserDetailTable" EntityType="Self.UserDetailTable" Schema="dbo" store:Type="Tables" />
@@ -662,6 +722,14 @@
           <EntitySet Name="UserTable" EntityType="Self.UserTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserTypeTable" EntityType="Self.UserTypeTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VisibleStatusTable" EntityType="Self.VisibleStatusTable" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BookingTblTable_BookingStatusTable" Association="Self.FK_BookingTblTable_BookingStatusTable">
+            <End Role="BookingStatusTable" EntitySet="BookingStatusTable" />
+            <End Role="BookingTblTable" EntitySet="BookingTblTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookingTblTable_UserTable" Association="Self.FK_BookingTblTable_UserTable">
+            <End Role="UserTable" EntitySet="UserTable" />
+            <End Role="BookingTblTable" EntitySet="BookingTblTable" />
+          </AssociationSet>
           <AssociationSet Name="FK_OrderDealDetailTable_OrderTable" Association="Self.FK_OrderDealDetailTable_OrderTable">
             <End Role="OrderTable" EntitySet="OrderTable" />
             <End Role="OrderDealDetailTable" EntitySet="OrderDealDetailTable" />
@@ -823,7 +891,7 @@
           <Property Name="Qty" Type="Int32" Nullable="false" />
           <Property Name="DealPrice" Type="Double" Nullable="false" />
           <NavigationProperty Name="OrderTable" Relationship="Self.FK_OrderDealDetailTable_OrderTable" FromRole="OrderDealDetailTable" ToRole="OrderTable" />
-          <NavigationProperty Name="StockDealTable" Relationship="Self.FK_OrderDealDetailTable_StockDealTable" FromRole="OrderDealDetailTable" ToRole="StockDealTable" />
+          <NavigationProperty Name="StockDealTable" Relationship="FoodManiaModel.FK_OrderDealDetailTable_StockDealTable" FromRole="OrderDealDetailTable" ToRole="StockDealTable" />
         </EntityType>
         <EntityType Name="OrderItemDetailTable">
           <Key>
@@ -886,36 +954,6 @@
           <Property Name="ReservationStatus" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="TableReservationTables" Relationship="Self.FK_TableReservationTable_ReservationStatusTable" FromRole="ReservationStatusTable" ToRole="TableReservationTable" />
         </EntityType>
-        <EntityType Name="StockDealDetailTable">
-          <Key>
-            <PropertyRef Name="StockDealDetailsID" />
-          </Key>
-          <Property Name="StockDealDetailsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="StockDealID" Type="Int32" Nullable="false" />
-          <Property Name="StockItemID" Type="Int32" Nullable="false" />
-          <Property Name="Discount" Type="Double" Nullable="false" />
-          <Property Name="VisibleStatusID" Type="Int32" Nullable="false" />
-          <Property Name="CreatedBy_UserID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="StockDealTable" Relationship="Self.FK_StockDealDetailTable_StockDealTable" FromRole="StockDealDetailTable" ToRole="StockDealTable" />
-          <NavigationProperty Name="StockItemTable" Relationship="Self.FK_StockDealDetailTable_StockItemTable" FromRole="StockDealDetailTable" ToRole="StockItemTable" />
-          <NavigationProperty Name="VisibleStatusTable" Relationship="Self.FK_StockDealDetailTable_VisibleStatusTable" FromRole="StockDealDetailTable" ToRole="VisibleStatusTable" />
-        </EntityType>
-        <EntityType Name="StockDealTable">
-          <Key>
-            <PropertyRef Name="StockDealID" />
-          </Key>
-          <Property Name="StockDealID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="StockDealTitle" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="DealPrice" Type="Double" Nullable="false" />
-          <Property Name="VisibleStatusID" Type="Int32" Nullable="false" />
-          <Property Name="StockDealStartDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Discount" Type="Double" Nullable="false" />
-          <Property Name="StockDealEndDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="StockDealRegisterDate" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="OrderDealDetailTables" Relationship="Self.FK_OrderDealDetailTable_StockDealTable" FromRole="StockDealTable" ToRole="OrderDealDetailTable" />
-          <NavigationProperty Name="StockDealDetailTables" Relationship="Self.FK_StockDealDetailTable_StockDealTable" FromRole="StockDealTable" ToRole="StockDealDetailTable" />
-          <NavigationProperty Name="VisibleStatusTable" Relationship="Self.FK_StockDealTable_VisibleStatusTable" FromRole="StockDealTable" ToRole="VisibleStatusTable" />
-        </EntityType>
         <EntityType Name="StockItemCategoryTable">
           <Key>
             <PropertyRef Name="StockItemCategoryID" />
@@ -954,11 +992,11 @@
           <Property Name="OrderTypeID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="OrderItemDetailTables" Relationship="Self.FK_OrderItemDetailTable_StockItemTable" FromRole="StockItemTable" ToRole="OrderItemDetailTable" />
           <NavigationProperty Name="OrderTypeTable" Relationship="Self.FK_StockItemTable_OrderTypeTable" FromRole="StockItemTable" ToRole="OrderTypeTable" />
-          <NavigationProperty Name="StockDealDetailTables" Relationship="Self.FK_StockDealDetailTable_StockItemTable" FromRole="StockItemTable" ToRole="StockDealDetailTable" />
           <NavigationProperty Name="StockItemCategoryTable" Relationship="Self.FK_StockItemTable_StockItemCategoryTable" FromRole="StockItemTable" ToRole="StockItemCategoryTable" />
           <NavigationProperty Name="StockItemIngredientTables" Relationship="Self.FK_StockItemIngredientTable_StockItemTable" FromRole="StockItemTable" ToRole="StockItemIngredientTable" />
           <NavigationProperty Name="VisibleStatusTable" Relationship="Self.FK_StockItemTable_VisibleStatusTable" FromRole="StockItemTable" ToRole="VisibleStatusTable" />
           <NavigationProperty Name="StockMenuItemTables" Relationship="Self.FK_StockMenuItemTable_StockItemTable" FromRole="StockItemTable" ToRole="StockMenuItemTable" />
+          <NavigationProperty Name="StockDealDetailTables" Relationship="FoodManiaModel.FK_StockDealDetailTable_StockItemTable" FromRole="StockItemTable" ToRole="StockDealDetailTable" />
         </EntityType>
         <EntityType Name="StockMenuCategoryTable">
           <Key>
@@ -1038,12 +1076,12 @@
           </Key>
           <Property Name="VisibleStatusID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="VisibleStatus" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="StockDealDetailTables" Relationship="Self.FK_StockDealDetailTable_VisibleStatusTable" FromRole="VisibleStatusTable" ToRole="StockDealDetailTable" />
-          <NavigationProperty Name="StockDealTables" Relationship="Self.FK_StockDealTable_VisibleStatusTable" FromRole="VisibleStatusTable" ToRole="StockDealTable" />
           <NavigationProperty Name="StockItemCategoryTables" Relationship="Self.FK_StockItemCategoryTable_VisibleStatusTable" FromRole="VisibleStatusTable" ToRole="StockItemCategoryTable" />
           <NavigationProperty Name="StockItemTables" Relationship="Self.FK_StockItemTable_VisibleStatusTable" FromRole="VisibleStatusTable" ToRole="StockItemTable" />
           <NavigationProperty Name="StockMenuItemTables" Relationship="Self.FK_StockMenuItemTable_VisibleStatusTable" FromRole="VisibleStatusTable" ToRole="StockMenuItemTable" />
           <NavigationProperty Name="UserAddressTables" Relationship="Self.FK_UserAddressTable_AddressTypeTable" FromRole="VisibleStatusTable" ToRole="UserAddressTable" />
+          <NavigationProperty Name="StockDealDetailTables" Relationship="FoodManiaModel.FK_StockDealDetailTable_VisibleStatusTable" FromRole="VisibleStatusTable" ToRole="StockDealDetailTable" />
+          <NavigationProperty Name="StockDealTables" Relationship="FoodManiaModel.FK_StockDealTable_VisibleStatusTable" FromRole="VisibleStatusTable" ToRole="StockDealTable" />
         </EntityType>
         <Association Name="FK_OrderItemDetailTable_DiscountTable">
           <End Role="DiscountTable" Type="Self.DiscountTable" Multiplicity="1" />
@@ -1066,18 +1104,6 @@
             </Principal>
             <Dependent Role="OrderDealDetailTable">
               <PropertyRef Name="OrderID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrderDealDetailTable_StockDealTable">
-          <End Role="StockDealTable" Type="Self.StockDealTable" Multiplicity="1" />
-          <End Role="OrderDealDetailTable" Type="Self.OrderDealDetailTable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="StockDealTable">
-              <PropertyRef Name="StockDealID" />
-            </Principal>
-            <Dependent Role="OrderDealDetailTable">
-              <PropertyRef Name="StockDealID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1162,54 +1188,6 @@
             </Principal>
             <Dependent Role="TableReservationTable">
               <PropertyRef Name="ReservationStatusID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_StockDealDetailTable_StockDealTable">
-          <End Role="StockDealTable" Type="Self.StockDealTable" Multiplicity="1" />
-          <End Role="StockDealDetailTable" Type="Self.StockDealDetailTable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="StockDealTable">
-              <PropertyRef Name="StockDealID" />
-            </Principal>
-            <Dependent Role="StockDealDetailTable">
-              <PropertyRef Name="StockDealID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_StockDealDetailTable_StockItemTable">
-          <End Role="StockItemTable" Type="Self.StockItemTable" Multiplicity="1" />
-          <End Role="StockDealDetailTable" Type="Self.StockDealDetailTable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="StockItemTable">
-              <PropertyRef Name="StockItemID" />
-            </Principal>
-            <Dependent Role="StockDealDetailTable">
-              <PropertyRef Name="StockItemID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_StockDealDetailTable_VisibleStatusTable">
-          <End Role="VisibleStatusTable" Type="Self.VisibleStatusTable" Multiplicity="1" />
-          <End Role="StockDealDetailTable" Type="Self.StockDealDetailTable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="VisibleStatusTable">
-              <PropertyRef Name="VisibleStatusID" />
-            </Principal>
-            <Dependent Role="StockDealDetailTable">
-              <PropertyRef Name="VisibleStatusID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_StockDealTable_VisibleStatusTable">
-          <End Role="VisibleStatusTable" Type="Self.VisibleStatusTable" Multiplicity="1" />
-          <End Role="StockDealTable" Type="Self.StockDealTable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="VisibleStatusTable">
-              <PropertyRef Name="VisibleStatusID" />
-            </Principal>
-            <Dependent Role="StockDealTable">
-              <PropertyRef Name="VisibleStatusID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1318,8 +1296,6 @@
           <EntitySet Name="OrderTables" EntityType="Self.OrderTable" />
           <EntitySet Name="OrderTypeTables" EntityType="Self.OrderTypeTable" />
           <EntitySet Name="ReservationStatusTables" EntityType="Self.ReservationStatusTable" />
-          <EntitySet Name="StockDealDetailTables" EntityType="Self.StockDealDetailTable" />
-          <EntitySet Name="StockDealTables" EntityType="Self.StockDealTable" />
           <EntitySet Name="StockItemCategoryTables" EntityType="Self.StockItemCategoryTable" />
           <EntitySet Name="StockItemIngredientTables" EntityType="Self.StockItemIngredientTable" />
           <EntitySet Name="StockItemTables" EntityType="Self.StockItemTable" />
@@ -1336,10 +1312,6 @@
           </AssociationSet>
           <AssociationSet Name="FK_OrderDealDetailTable_OrderTable" Association="Self.FK_OrderDealDetailTable_OrderTable">
             <End Role="OrderTable" EntitySet="OrderTables" />
-            <End Role="OrderDealDetailTable" EntitySet="OrderDealDetailTables" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderDealDetailTable_StockDealTable" Association="Self.FK_OrderDealDetailTable_StockDealTable">
-            <End Role="StockDealTable" EntitySet="StockDealTables" />
             <End Role="OrderDealDetailTable" EntitySet="OrderDealDetailTables" />
           </AssociationSet>
           <AssociationSet Name="FK_OrderItemDetailTable_OrderTable" Association="Self.FK_OrderItemDetailTable_OrderTable">
@@ -1369,22 +1341,6 @@
           <AssociationSet Name="FK_TableReservationTable_ReservationStatusTable" Association="Self.FK_TableReservationTable_ReservationStatusTable">
             <End Role="ReservationStatusTable" EntitySet="ReservationStatusTables" />
             <End Role="TableReservationTable" EntitySet="TableReservationTables" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StockDealDetailTable_StockDealTable" Association="Self.FK_StockDealDetailTable_StockDealTable">
-            <End Role="StockDealTable" EntitySet="StockDealTables" />
-            <End Role="StockDealDetailTable" EntitySet="StockDealDetailTables" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StockDealDetailTable_StockItemTable" Association="Self.FK_StockDealDetailTable_StockItemTable">
-            <End Role="StockItemTable" EntitySet="StockItemTables" />
-            <End Role="StockDealDetailTable" EntitySet="StockDealDetailTables" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StockDealDetailTable_VisibleStatusTable" Association="Self.FK_StockDealDetailTable_VisibleStatusTable">
-            <End Role="VisibleStatusTable" EntitySet="VisibleStatusTables" />
-            <End Role="StockDealDetailTable" EntitySet="StockDealDetailTables" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StockDealTable_VisibleStatusTable" Association="Self.FK_StockDealTable_VisibleStatusTable">
-            <End Role="VisibleStatusTable" EntitySet="VisibleStatusTables" />
-            <End Role="StockDealTable" EntitySet="StockDealTables" />
           </AssociationSet>
           <AssociationSet Name="FK_StockItemCategoryTable_VisibleStatusTable" Association="Self.FK_StockItemCategoryTable_VisibleStatusTable">
             <End Role="VisibleStatusTable" EntitySet="VisibleStatusTables" />
@@ -1462,6 +1418,39 @@
             <End Role="UserTypeTable" EntitySet="UserTypeTables" />
             <End Role="UserTable" EntitySet="UserTables" />
           </AssociationSet>
+          <EntitySet Name="StockDealDetailTables" EntityType="FoodManiaModel.StockDealDetailTable" />
+          <EntitySet Name="StockDealTables" EntityType="FoodManiaModel.StockDealTable" />
+          <AssociationSet Name="FK_OrderDealDetailTable_StockDealTable" Association="FoodManiaModel.FK_OrderDealDetailTable_StockDealTable">
+            <End Role="StockDealTable" EntitySet="StockDealTables" />
+            <End Role="OrderDealDetailTable" EntitySet="OrderDealDetailTables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockDealDetailTable_StockDealTable" Association="FoodManiaModel.FK_StockDealDetailTable_StockDealTable">
+            <End Role="StockDealTable" EntitySet="StockDealTables" />
+            <End Role="StockDealDetailTable" EntitySet="StockDealDetailTables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockDealDetailTable_StockItemTable" Association="FoodManiaModel.FK_StockDealDetailTable_StockItemTable">
+            <End Role="StockItemTable" EntitySet="StockItemTables" />
+            <End Role="StockDealDetailTable" EntitySet="StockDealDetailTables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockDealDetailTable_VisibleStatusTable" Association="FoodManiaModel.FK_StockDealDetailTable_VisibleStatusTable">
+            <End Role="VisibleStatusTable" EntitySet="VisibleStatusTables" />
+            <End Role="StockDealDetailTable" EntitySet="StockDealDetailTables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockDealTable_VisibleStatusTable" Association="FoodManiaModel.FK_StockDealTable_VisibleStatusTable">
+            <End Role="VisibleStatusTable" EntitySet="VisibleStatusTables" />
+            <End Role="StockDealTable" EntitySet="StockDealTables" />
+          </AssociationSet>
+          <EntitySet Name="BookingStatusTables" EntityType="FoodManiaModel.BookingStatusTable" />
+          <EntitySet Name="BookingTblTables" EntityType="FoodManiaModel.BookingTblTable" />
+          <AssociationSet Name="FK_BookingTblTable_BookingStatusTable" Association="FoodManiaModel.FK_BookingTblTable_BookingStatusTable">
+            <End Role="BookingStatusTable" EntitySet="BookingStatusTables" />
+            <End Role="BookingTblTable" EntitySet="BookingTblTables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookingTblTable_UserTable" Association="FoodManiaModel.FK_BookingTblTable_UserTable">
+            <End Role="UserTable" EntitySet="UserTables" />
+            <End Role="BookingTblTable" EntitySet="BookingTblTables" />
+          </AssociationSet>
+          <EntitySet Name="SubscribeEmailTables" EntityType="FoodManiaModel.SubscribeEmailTable" />
           </EntityContainer>
         <EntityType Name="UserDetailTable">
           <Key>
@@ -1536,6 +1525,7 @@
           <NavigationProperty Name="UserPasswordRecoveryTables" Relationship="FoodManiaModel.FK_UserPasswordRecoveryTable_UserTable" FromRole="UserTable" ToRole="UserPasswordRecoveryTable" />
           <NavigationProperty Name="UserStatusTable" Relationship="FoodManiaModel.FK_UserTable_UserStatusTable" FromRole="UserTable" ToRole="UserStatusTable" />
           <NavigationProperty Name="UserTypeTable" Relationship="FoodManiaModel.FK_UserTable_UserTypeTable" FromRole="UserTable" ToRole="UserTypeTable" />
+          <NavigationProperty Name="BookingTblTables" Relationship="FoodManiaModel.FK_BookingTblTable_UserTable" FromRole="UserTable" ToRole="BookingTblTable" />
         </EntityType>
         <Association Name="FK_UserTable_GenderTable">
           <End Type="FoodManiaModel.GenderTable" Role="GenderTable" Multiplicity="1" />
@@ -1645,6 +1635,156 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="StockDealDetailTable">
+          <Key>
+            <PropertyRef Name="StockDealDetailsID" />
+          </Key>
+          <Property Name="StockDealDetailsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StockDealID" Type="Int32" Nullable="false" />
+          <Property Name="StockItemID" Type="Int32" Nullable="false" />
+          <Property Name="Discount" Type="Double" Nullable="false" />
+          <Property Name="VisibleStatusID" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy_UserID" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="StockDealTable" Relationship="FoodManiaModel.FK_StockDealDetailTable_StockDealTable" FromRole="StockDealDetailTable" ToRole="StockDealTable" />
+          <NavigationProperty Name="StockItemTable" Relationship="FoodManiaModel.FK_StockDealDetailTable_StockItemTable" FromRole="StockDealDetailTable" ToRole="StockItemTable" />
+          <NavigationProperty Name="VisibleStatusTable" Relationship="FoodManiaModel.FK_StockDealDetailTable_VisibleStatusTable" FromRole="StockDealDetailTable" ToRole="VisibleStatusTable" />
+        </EntityType>
+        <EntityType Name="StockDealTable">
+          <Key>
+            <PropertyRef Name="StockDealID" />
+          </Key>
+          <Property Name="StockDealID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StockDealTitle" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DealPrice" Type="Double" Nullable="false" />
+          <Property Name="VisibleStatusID" Type="Int32" Nullable="false" />
+          <Property Name="StockDealStartDate" Type="DateTime" Precision="0" />
+          <Property Name="Discount" Type="Double" />
+          <Property Name="StockDealEndDate" Type="DateTime" Precision="0" />
+          <Property Name="StockDealRegisterDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DealPhoto" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="OrderDealDetailTables" Relationship="FoodManiaModel.FK_OrderDealDetailTable_StockDealTable" FromRole="StockDealTable" ToRole="OrderDealDetailTable" />
+          <NavigationProperty Name="StockDealDetailTables" Relationship="FoodManiaModel.FK_StockDealDetailTable_StockDealTable" FromRole="StockDealTable" ToRole="StockDealDetailTable" />
+          <NavigationProperty Name="VisibleStatusTable" Relationship="FoodManiaModel.FK_StockDealTable_VisibleStatusTable" FromRole="StockDealTable" ToRole="VisibleStatusTable" />
+        </EntityType>
+        <Association Name="FK_OrderDealDetailTable_StockDealTable">
+          <End Type="FoodManiaModel.StockDealTable" Role="StockDealTable" Multiplicity="1" />
+          <End Type="FoodManiaModel.OrderDealDetailTable" Role="OrderDealDetailTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockDealTable">
+              <PropertyRef Name="StockDealID" />
+            </Principal>
+            <Dependent Role="OrderDealDetailTable">
+              <PropertyRef Name="StockDealID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StockDealDetailTable_StockDealTable">
+          <End Type="FoodManiaModel.StockDealTable" Role="StockDealTable" Multiplicity="1" />
+          <End Type="FoodManiaModel.StockDealDetailTable" Role="StockDealDetailTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockDealTable">
+              <PropertyRef Name="StockDealID" />
+            </Principal>
+            <Dependent Role="StockDealDetailTable">
+              <PropertyRef Name="StockDealID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StockDealDetailTable_StockItemTable">
+          <End Type="FoodManiaModel.StockItemTable" Role="StockItemTable" Multiplicity="1" />
+          <End Type="FoodManiaModel.StockDealDetailTable" Role="StockDealDetailTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockItemTable">
+              <PropertyRef Name="StockItemID" />
+            </Principal>
+            <Dependent Role="StockDealDetailTable">
+              <PropertyRef Name="StockItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StockDealDetailTable_VisibleStatusTable">
+          <End Type="FoodManiaModel.VisibleStatusTable" Role="VisibleStatusTable" Multiplicity="1" />
+          <End Type="FoodManiaModel.StockDealDetailTable" Role="StockDealDetailTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VisibleStatusTable">
+              <PropertyRef Name="VisibleStatusID" />
+            </Principal>
+            <Dependent Role="StockDealDetailTable">
+              <PropertyRef Name="VisibleStatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StockDealTable_VisibleStatusTable">
+          <End Type="FoodManiaModel.VisibleStatusTable" Role="VisibleStatusTable" Multiplicity="1" />
+          <End Type="FoodManiaModel.StockDealTable" Role="StockDealTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VisibleStatusTable">
+              <PropertyRef Name="VisibleStatusID" />
+            </Principal>
+            <Dependent Role="StockDealTable">
+              <PropertyRef Name="VisibleStatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="BookingStatusTable">
+          <Key>
+            <PropertyRef Name="BookingStatusID" />
+          </Key>
+          <Property Name="BookingStatusID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BookingStatus" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BookingTblTables" Relationship="FoodManiaModel.FK_BookingTblTable_BookingStatusTable" FromRole="BookingStatusTable" ToRole="BookingTblTable" />
+        </EntityType>
+        <EntityType Name="BookingTblTable">
+          <Key>
+            <PropertyRef Name="BookingTableID" />
+          </Key>
+          <Property Name="BookingTableID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BookingUserID" Type="Int32" Nullable="false" />
+          <Property Name="FullName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="EmailAddress" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MobileNo" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="BookingDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ReservationDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="NoOfPersons" Type="Int32" Nullable="false" />
+          <Property Name="ProcessBy_UserID" Type="Int32" Nullable="false" />
+          <Property Name="BookingStatusID" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BookingStatusTable" Relationship="FoodManiaModel.FK_BookingTblTable_BookingStatusTable" FromRole="BookingTblTable" ToRole="BookingStatusTable" />
+          <NavigationProperty Name="UserTable" Relationship="FoodManiaModel.FK_BookingTblTable_UserTable" FromRole="BookingTblTable" ToRole="UserTable" />
+        </EntityType>
+        <Association Name="FK_BookingTblTable_BookingStatusTable">
+          <End Type="FoodManiaModel.BookingStatusTable" Role="BookingStatusTable" Multiplicity="1" />
+          <End Type="FoodManiaModel.BookingTblTable" Role="BookingTblTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BookingStatusTable">
+              <PropertyRef Name="BookingStatusID" />
+            </Principal>
+            <Dependent Role="BookingTblTable">
+              <PropertyRef Name="BookingStatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BookingTblTable_UserTable">
+          <End Type="FoodManiaModel.UserTable" Role="UserTable" Multiplicity="1" />
+          <End Type="FoodManiaModel.BookingTblTable" Role="BookingTblTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="BookingTblTable">
+              <PropertyRef Name="BookingUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SubscribeEmailTable">
+          <Key>
+            <PropertyRef Name="SubscribeEmailID" />
+          </Key>
+          <Property Name="SubscribeEmailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubscribeEmailAddress" Type="String" Nullable="false" MaxLength="350" FixedLength="false" Unicode="false" />
+          <Property Name="SubscribeStatus" Type="Boolean" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1730,32 +1870,6 @@
               <MappingFragment StoreEntitySet="ReservationStatusTable">
                 <ScalarProperty Name="ReservationStatusID" ColumnName="ReservationStatusID" />
                 <ScalarProperty Name="ReservationStatus" ColumnName="ReservationStatus" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="StockDealDetailTables">
-            <EntityTypeMapping TypeName="FoodManiaModel.StockDealDetailTable">
-              <MappingFragment StoreEntitySet="StockDealDetailTable">
-                <ScalarProperty Name="StockDealDetailsID" ColumnName="StockDealDetailsID" />
-                <ScalarProperty Name="StockDealID" ColumnName="StockDealID" />
-                <ScalarProperty Name="StockItemID" ColumnName="StockItemID" />
-                <ScalarProperty Name="Discount" ColumnName="Discount" />
-                <ScalarProperty Name="VisibleStatusID" ColumnName="VisibleStatusID" />
-                <ScalarProperty Name="CreatedBy_UserID" ColumnName="CreatedBy_UserID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="StockDealTables">
-            <EntityTypeMapping TypeName="FoodManiaModel.StockDealTable">
-              <MappingFragment StoreEntitySet="StockDealTable">
-                <ScalarProperty Name="StockDealID" ColumnName="StockDealID" />
-                <ScalarProperty Name="StockDealTitle" ColumnName="StockDealTitle" />
-                <ScalarProperty Name="DealPrice" ColumnName="DealPrice" />
-                <ScalarProperty Name="VisibleStatusID" ColumnName="VisibleStatusID" />
-                <ScalarProperty Name="StockDealStartDate" ColumnName="StockDealStartDate" />
-                <ScalarProperty Name="Discount" ColumnName="Discount" />
-                <ScalarProperty Name="StockDealEndDate" ColumnName="StockDealEndDate" />
-                <ScalarProperty Name="StockDealRegisterDate" ColumnName="StockDealRegisterDate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1920,6 +2034,68 @@
                 <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="UserTypeID" ColumnName="UserTypeID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockDealDetailTables">
+            <EntityTypeMapping TypeName="FoodManiaModel.StockDealDetailTable">
+              <MappingFragment StoreEntitySet="StockDealDetailTable">
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="CreatedBy_UserID" ColumnName="CreatedBy_UserID" />
+                <ScalarProperty Name="VisibleStatusID" ColumnName="VisibleStatusID" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="StockItemID" ColumnName="StockItemID" />
+                <ScalarProperty Name="StockDealID" ColumnName="StockDealID" />
+                <ScalarProperty Name="StockDealDetailsID" ColumnName="StockDealDetailsID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockDealTables">
+            <EntityTypeMapping TypeName="FoodManiaModel.StockDealTable">
+              <MappingFragment StoreEntitySet="StockDealTable">
+                <ScalarProperty Name="DealPhoto" ColumnName="DealPhoto" />
+                <ScalarProperty Name="StockDealRegisterDate" ColumnName="StockDealRegisterDate" />
+                <ScalarProperty Name="StockDealEndDate" ColumnName="StockDealEndDate" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="StockDealStartDate" ColumnName="StockDealStartDate" />
+                <ScalarProperty Name="VisibleStatusID" ColumnName="VisibleStatusID" />
+                <ScalarProperty Name="DealPrice" ColumnName="DealPrice" />
+                <ScalarProperty Name="StockDealTitle" ColumnName="StockDealTitle" />
+                <ScalarProperty Name="StockDealID" ColumnName="StockDealID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BookingStatusTables">
+            <EntityTypeMapping TypeName="FoodManiaModel.BookingStatusTable">
+              <MappingFragment StoreEntitySet="BookingStatusTable">
+                <ScalarProperty Name="BookingStatus" ColumnName="BookingStatus" />
+                <ScalarProperty Name="BookingStatusID" ColumnName="BookingStatusID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BookingTblTables">
+            <EntityTypeMapping TypeName="FoodManiaModel.BookingTblTable">
+              <MappingFragment StoreEntitySet="BookingTblTable">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="BookingStatusID" ColumnName="BookingStatusID" />
+                <ScalarProperty Name="ProcessBy_UserID" ColumnName="ProcessBy_UserID" />
+                <ScalarProperty Name="NoOfPersons" ColumnName="NoOfPersons" />
+                <ScalarProperty Name="ReservationDateTime" ColumnName="ReservationDateTime" />
+                <ScalarProperty Name="BookingDate" ColumnName="BookingDate" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="BookingUserID" ColumnName="BookingUserID" />
+                <ScalarProperty Name="BookingTableID" ColumnName="BookingTableID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubscribeEmailTables">
+            <EntityTypeMapping TypeName="FoodManiaModel.SubscribeEmailTable">
+              <MappingFragment StoreEntitySet="SubscribeEmailTable">
+                <ScalarProperty Name="SubscribeStatus" ColumnName="SubscribeStatus" />
+                <ScalarProperty Name="SubscribeEmailAddress" ColumnName="SubscribeEmailAddress" />
+                <ScalarProperty Name="SubscribeEmailID" ColumnName="SubscribeEmailID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

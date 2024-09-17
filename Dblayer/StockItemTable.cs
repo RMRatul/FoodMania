@@ -18,9 +18,9 @@ namespace Dblayer
         public StockItemTable()
         {
             this.OrderItemDetailTables = new HashSet<OrderItemDetailTable>();
-            this.StockDealDetailTables = new HashSet<StockDealDetailTable>();
             this.StockItemIngredientTables = new HashSet<StockItemIngredientTable>();
             this.StockMenuItemTables = new HashSet<StockMenuItemTable>();
+            this.StockDealDetailTables = new HashSet<StockDealDetailTable>();
         }
     
         public int StockItemID { get; set; }
@@ -37,13 +37,13 @@ namespace Dblayer
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderItemDetailTable> OrderItemDetailTables { get; set; }
         public virtual OrderTypeTable OrderTypeTable { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<StockDealDetailTable> StockDealDetailTables { get; set; }
         public virtual StockItemCategoryTable StockItemCategoryTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StockItemIngredientTable> StockItemIngredientTables { get; set; }
         public virtual VisibleStatusTable VisibleStatusTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StockMenuItemTable> StockMenuItemTables { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<StockDealDetailTable> StockDealDetailTables { get; set; }
     }
 }

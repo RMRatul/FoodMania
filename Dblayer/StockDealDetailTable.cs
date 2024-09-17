@@ -20,6 +20,7 @@ namespace Dblayer
         public double Discount { get; set; }
         public int VisibleStatusID { get; set; }
         public int CreatedBy_UserID { get; set; }
+        public int Quantity { get; set; }
     
         public virtual StockDealTable StockDealTable { get; set; }
         public virtual StockItemTable StockItemTable { get; set; }

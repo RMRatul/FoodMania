@@ -323,6 +323,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SettingController.cs" />
     <Compile Include="Controllers\StockController.cs" />
+    <Compile Include="Controllers\TableReservationController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UserRecoveryController.cs" />
     <Compile Include="Global.asax.cs">
@@ -334,19 +335,38 @@
     <Compile Include="Models\CRU_ OrderTypeMV.cs" />
     <Compile Include="Models\CRU_ StockItemCategoryMV.cs" />
     <Compile Include="Models\CRU_GenderMV.cs" />
+    <Compile Include="Models\CRU_StockDealDetailMV.cs" />
+    <Compile Include="Models\CRU_StockDealMV.cs" />
+    <Compile Include="Models\CRU_StockItemIngredientMV.cs" />
+    <Compile Include="Models\CRU_StockItemMV.cs" />
     <Compile Include="Models\CRU_StockMenuCategoryMV.cs" />
+    <Compile Include="Models\CRU_StockMenuItemMV.cs" />
+    <Compile Include="Models\CRU_TableReservationMV.cs" />
     <Compile Include="Models\CRU_UserAddressMV.cs" />
     <Compile Include="Models\CRU_UserStatusMV.cs" />
     <Compile Include="Models\CRU_UserTypeMV.cs" />
     <Compile Include="Models\CRU_VisibleStatusMV.cs" />
     <Compile Include="Models\DashboardMV.cs" />
+    <Compile Include="Models\FilterCategoryMV.cs" />
+    <Compile Include="Models\FilterOrderTypeMV.cs" />
     <Compile Include="Models\ForgotPasswordMV.cs" />
     <Compile Include="Models\GenderMV.cs" />
+    <Compile Include="Models\HomeMV.cs" />
+    <Compile Include="Models\ItemMV.cs" />
     <Compile Include="Models\LoginMV.cs" />
+    <Compile Include="Models\MenuCategoryMV.cs" />
     <Compile Include="Models\OrderTypeMV.cs" />
     <Compile Include="Models\Reg_UserMV.cs" />
+    <Compile Include="Models\StockCategoryMV.cs" />
+    <Compile Include="Models\StockDealDetailMV.cs" />
+    <Compile Include="Models\StockDealHeaderMV.cs" />
     <Compile Include="Models\StockItemCategoryMV.cs" />
+    <Compile Include="Models\StockItemIngredientMV.cs" />
+    <Compile Include="Models\StockItemMV.cs" />
     <Compile Include="Models\StockMenuCategoryMV.cs" />
+    <Compile Include="Models\StockMenuItemMV.cs" />
+    <Compile Include="Models\StockMenuMV.cs" />
+    <Compile Include="Models\TableReservationMV.cs" />
     <Compile Include="Models\UserAddressMV.cs" />
     <Compile Include="Models\UserStatusMV.cs" />
     <Compile Include="Models\UserTypeMV.cs" />
@@ -412,6 +432,16 @@
     <Content Include="Views\Stock\StockItemCategory.cshtml" />
     <Content Include="Views\Stock\OrderType.cshtml" />
     <Content Include="Views\Stock\StockMenuCategory.cshtml" />
+    <Content Include="Views\Stock\StockItem.cshtml" />
+    <Content Include="Views\Stock\StockItemIngredient.cshtml" />
+    <Content Include="Views\Stock\StockMenu.cshtml" />
+    <Content Include="Views\Stock\StockDeal.cshtml" />
+    <Content Include="Views\Stock\StockDealItem.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\TableReservation\Partial_TableReservation.cshtml" />
+    <Content Include="Views\TableReservation\BookingTables.cshtml" />
+    <Content Include="Views\Home\AllItems.cshtml" />
+    <Content Include="Views\Home\Partial_NewsLetter.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -421,9 +451,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Deals\" />
     <Folder Include="Content\OtherFiles\" />
     <Folder Include="Content\ProfilePhoto\" />
-    <Folder Include="Views\Home\" />
+    <Folder Include="Content\StockIngredientPhoto\" />
+    <Folder Include="Content\StockItemPhoto\" />
     <Folder Include="Views\Recovery\" />
   </ItemGroup>
   <ItemGroup>

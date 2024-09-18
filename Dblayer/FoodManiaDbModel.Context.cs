@@ -53,5 +53,8 @@ namespace Dblayer
         public virtual DbSet<SubscribeEmailTable> SubscribeEmailTables { get; set; }
         public virtual DbSet<UserPasswordRecoveryTable> UserPasswordRecoveryTables { get; set; }
         public virtual DbSet<StockItemReviewTable> StockItemReviewTables { get; set; }
+        public virtual DbSet<CartDealTable> CartDealTables { get; set; }
+        public virtual DbSet<CartItemDetailTable> CartItemDetailTables { get; set; }
+        public virtual DbSet<CartTable> CartTables { get; set; }
     }
 }

@@ -59,6 +59,15 @@
     <Compile Include="BookingTblTable.cs">
       <DependentUpon>FoodManiaDbModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="CartDealTable.cs">
+      <DependentUpon>FoodManiaDbModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CartItemDetailTable.cs">
+      <DependentUpon>FoodManiaDbModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CartTable.cs">
+      <DependentUpon>FoodManiaDbModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DiscountTable.cs">
       <DependentUpon>FoodManiaDbModel.tt</DependentUpon>
     </Compile>

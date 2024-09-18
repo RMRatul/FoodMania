@@ -36,6 +36,31 @@
           <Property Name="BookingStatusID" Type="int" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="500" Nullable="false" />
         </EntityType>
+        <EntityType Name="CartDealTable">
+          <Key>
+            <PropertyRef Name="CartDealID" />
+          </Key>
+          <Property Name="CartDealID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CartID" Type="int" Nullable="false" />
+          <Property Name="StockDealID" Type="int" Nullable="false" />
+          <Property Name="Qty" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CartItemDetailTable">
+          <Key>
+            <PropertyRef Name="CartItemID" />
+          </Key>
+          <Property Name="CartItemID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CartID" Type="int" Nullable="false" />
+          <Property Name="StockItemID" Type="int" Nullable="false" />
+          <Property Name="Qty" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CartTable">
+          <Key>
+            <PropertyRef Name="CartID" />
+          </Key>
+          <Property Name="CartID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="DiscountTable">
           <Key>
             <PropertyRef Name="DiscountID" />
@@ -318,6 +343,66 @@
             </Principal>
             <Dependent Role="BookingTblTable">
               <PropertyRef Name="BookingUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CartDealTable_CartTable">
+          <End Role="CartTable" Type="Self.CartTable" Multiplicity="1" />
+          <End Role="CartDealTable" Type="Self.CartDealTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CartTable">
+              <PropertyRef Name="CartID" />
+            </Principal>
+            <Dependent Role="CartDealTable">
+              <PropertyRef Name="CartID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CartDealTable_StockDealTable">
+          <End Role="StockDealTable" Type="Self.StockDealTable" Multiplicity="1" />
+          <End Role="CartDealTable" Type="Self.CartDealTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockDealTable">
+              <PropertyRef Name="StockDealID" />
+            </Principal>
+            <Dependent Role="CartDealTable">
+              <PropertyRef Name="StockDealID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CartItemDetailTable_CartTable">
+          <End Role="CartTable" Type="Self.CartTable" Multiplicity="1" />
+          <End Role="CartItemDetailTable" Type="Self.CartItemDetailTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CartTable">
+              <PropertyRef Name="CartID" />
+            </Principal>
+            <Dependent Role="CartItemDetailTable">
+              <PropertyRef Name="CartID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CartItemDetailTable_StockItemTable">
+          <End Role="StockItemTable" Type="Self.StockItemTable" Multiplicity="1" />
+          <End Role="CartItemDetailTable" Type="Self.CartItemDetailTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockItemTable">
+              <PropertyRef Name="StockItemID" />
+            </Principal>
+            <Dependent Role="CartItemDetailTable">
+              <PropertyRef Name="StockItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CartTable_UserTable">
+          <End Role="UserTable" Type="Self.UserTable" Multiplicity="1" />
+          <End Role="CartTable" Type="Self.CartTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="CartTable">
+              <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -721,6 +806,9 @@
           <EntitySet Name="AddressTypeTable" EntityType="Self.AddressTypeTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BookingStatusTable" EntityType="Self.BookingStatusTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BookingTblTable" EntityType="Self.BookingTblTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CartDealTable" EntityType="Self.CartDealTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CartItemDetailTable" EntityType="Self.CartItemDetailTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CartTable" EntityType="Self.CartTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DiscountTable" EntityType="Self.DiscountTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GenderTable" EntityType="Self.GenderTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrderDealDetailTable" EntityType="Self.OrderDealDetailTable" Schema="dbo" store:Type="Tables" />
@@ -753,6 +841,26 @@
           <AssociationSet Name="FK_BookingTblTable_UserTable" Association="Self.FK_BookingTblTable_UserTable">
             <End Role="UserTable" EntitySet="UserTable" />
             <End Role="BookingTblTable" EntitySet="BookingTblTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CartDealTable_CartTable" Association="Self.FK_CartDealTable_CartTable">
+            <End Role="CartTable" EntitySet="CartTable" />
+            <End Role="CartDealTable" EntitySet="CartDealTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CartDealTable_StockDealTable" Association="Self.FK_CartDealTable_StockDealTable">
+            <End Role="StockDealTable" EntitySet="StockDealTable" />
+            <End Role="CartDealTable" EntitySet="CartDealTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CartItemDetailTable_CartTable" Association="Self.FK_CartItemDetailTable_CartTable">
+            <End Role="CartTable" EntitySet="CartTable" />
+            <End Role="CartItemDetailTable" EntitySet="CartItemDetailTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CartItemDetailTable_StockItemTable" Association="Self.FK_CartItemDetailTable_StockItemTable">
+            <End Role="StockItemTable" EntitySet="StockItemTable" />
+            <End Role="CartItemDetailTable" EntitySet="CartItemDetailTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CartTable_UserTable" Association="Self.FK_CartTable_UserTable">
+            <End Role="UserTable" EntitySet="UserTable" />
+            <End Role="CartTable" EntitySet="CartTable" />
           </AssociationSet>
           <AssociationSet Name="FK_OrderDealDetailTable_OrderTable" Association="Self.FK_OrderDealDetailTable_OrderTable">
             <End Role="OrderTable" EntitySet="OrderTable" />
@@ -1026,6 +1134,7 @@
           <NavigationProperty Name="StockMenuItemTables" Relationship="Self.FK_StockMenuItemTable_StockItemTable" FromRole="StockItemTable" ToRole="StockMenuItemTable" />
           <NavigationProperty Name="StockDealDetailTables" Relationship="FoodManiaModel.FK_StockDealDetailTable_StockItemTable" FromRole="StockItemTable" ToRole="StockDealDetailTable" />
           <NavigationProperty Name="StockItemReviewTables" Relationship="FoodManiaModel.FK_StockItemReviewTable_StockItemTable" FromRole="StockItemTable" ToRole="StockItemReviewTable" />
+          <NavigationProperty Name="CartItemDetailTables" Relationship="FoodManiaModel.FK_CartItemDetailTable_StockItemTable" FromRole="StockItemTable" ToRole="CartItemDetailTable" />
         </EntityType>
         <EntityType Name="StockMenuCategoryTable">
           <Key>
@@ -1485,6 +1594,29 @@
             <End Role="StockItemTable" EntitySet="StockItemTables" />
             <End Role="StockItemReviewTable" EntitySet="StockItemReviewTables" />
           </AssociationSet>
+          <EntitySet Name="CartDealTables" EntityType="FoodManiaModel.CartDealTable" />
+          <EntitySet Name="CartItemDetailTables" EntityType="FoodManiaModel.CartItemDetailTable" />
+          <EntitySet Name="CartTables" EntityType="FoodManiaModel.CartTable" />
+          <AssociationSet Name="FK_CartDealTable_CartTable" Association="FoodManiaModel.FK_CartDealTable_CartTable">
+            <End Role="CartTable" EntitySet="CartTables" />
+            <End Role="CartDealTable" EntitySet="CartDealTables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CartDealTable_StockDealTable" Association="FoodManiaModel.FK_CartDealTable_StockDealTable">
+            <End Role="StockDealTable" EntitySet="StockDealTables" />
+            <End Role="CartDealTable" EntitySet="CartDealTables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CartItemDetailTable_CartTable" Association="FoodManiaModel.FK_CartItemDetailTable_CartTable">
+            <End Role="CartTable" EntitySet="CartTables" />
+            <End Role="CartItemDetailTable" EntitySet="CartItemDetailTables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CartItemDetailTable_StockItemTable" Association="FoodManiaModel.FK_CartItemDetailTable_StockItemTable">
+            <End Role="StockItemTable" EntitySet="StockItemTables" />
+            <End Role="CartItemDetailTable" EntitySet="CartItemDetailTables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CartTable_UserTable" Association="FoodManiaModel.FK_CartTable_UserTable">
+            <End Role="UserTable" EntitySet="UserTables" />
+            <End Role="CartTable" EntitySet="CartTables" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="UserDetailTable">
           <Key>
@@ -1548,6 +1680,7 @@
           <NavigationProperty Name="UserTypeTable" Relationship="FoodManiaModel.FK_UserTable_UserTypeTable" FromRole="UserTable" ToRole="UserTypeTable" />
           <NavigationProperty Name="BookingTblTables" Relationship="FoodManiaModel.FK_BookingTblTable_UserTable" FromRole="UserTable" ToRole="BookingTblTable" />
           <NavigationProperty Name="UserPasswordRecoveryTables" Relationship="FoodManiaModel.FK_UserPasswordRecoveryTable_UserTable1" FromRole="UserTable" ToRole="UserPasswordRecoveryTable" />
+          <NavigationProperty Name="CartTables" Relationship="FoodManiaModel.FK_CartTable_UserTable" FromRole="UserTable" ToRole="CartTable" />
         </EntityType>
         <Association Name="FK_UserTable_GenderTable">
           <End Type="FoodManiaModel.GenderTable" Role="GenderTable" Multiplicity="1" />
@@ -1676,6 +1809,7 @@
           <NavigationProperty Name="OrderDealDetailTables" Relationship="FoodManiaModel.FK_OrderDealDetailTable_StockDealTable" FromRole="StockDealTable" ToRole="OrderDealDetailTable" />
           <NavigationProperty Name="StockDealDetailTables" Relationship="FoodManiaModel.FK_StockDealDetailTable_StockDealTable" FromRole="StockDealTable" ToRole="StockDealDetailTable" />
           <NavigationProperty Name="VisibleStatusTable" Relationship="FoodManiaModel.FK_StockDealTable_VisibleStatusTable" FromRole="StockDealTable" ToRole="VisibleStatusTable" />
+          <NavigationProperty Name="CartDealTables" Relationship="FoodManiaModel.FK_CartDealTable_StockDealTable" FromRole="StockDealTable" ToRole="CartDealTable" />
         </EntityType>
         <Association Name="FK_OrderDealDetailTable_StockDealTable">
           <End Type="FoodManiaModel.StockDealTable" Role="StockDealTable" Multiplicity="1" />
@@ -1840,6 +1974,98 @@
             </Principal>
             <Dependent Role="StockItemReviewTable">
               <PropertyRef Name="StockItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CartDealTable">
+          <Key>
+            <PropertyRef Name="CartDealID" />
+          </Key>
+          <Property Name="CartDealID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CartID" Type="Int32" Nullable="false" />
+          <Property Name="StockDealID" Type="Int32" Nullable="false" />
+          <Property Name="Qty" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CartTable" Relationship="FoodManiaModel.FK_CartDealTable_CartTable" FromRole="CartDealTable" ToRole="CartTable" />
+          <NavigationProperty Name="StockDealTable" Relationship="FoodManiaModel.FK_CartDealTable_StockDealTable" FromRole="CartDealTable" ToRole="StockDealTable" />
+        </EntityType>
+        <EntityType Name="CartItemDetailTable">
+          <Key>
+            <PropertyRef Name="CartItemID" />
+          </Key>
+          <Property Name="CartItemID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CartID" Type="Int32" Nullable="false" />
+          <Property Name="StockItemID" Type="Int32" Nullable="false" />
+          <Property Name="Qty" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CartTable" Relationship="FoodManiaModel.FK_CartItemDetailTable_CartTable" FromRole="CartItemDetailTable" ToRole="CartTable" />
+          <NavigationProperty Name="StockItemTable" Relationship="FoodManiaModel.FK_CartItemDetailTable_StockItemTable" FromRole="CartItemDetailTable" ToRole="StockItemTable" />
+        </EntityType>
+        <EntityType Name="CartTable">
+          <Key>
+            <PropertyRef Name="CartID" />
+          </Key>
+          <Property Name="CartID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CartDealTables" Relationship="FoodManiaModel.FK_CartDealTable_CartTable" FromRole="CartTable" ToRole="CartDealTable" />
+          <NavigationProperty Name="CartItemDetailTables" Relationship="FoodManiaModel.FK_CartItemDetailTable_CartTable" FromRole="CartTable" ToRole="CartItemDetailTable" />
+          <NavigationProperty Name="UserTable" Relationship="FoodManiaModel.FK_CartTable_UserTable" FromRole="CartTable" ToRole="UserTable" />
+        </EntityType>
+        <Association Name="FK_CartDealTable_CartTable">
+          <End Type="FoodManiaModel.CartTable" Role="CartTable" Multiplicity="1" />
+          <End Type="FoodManiaModel.CartDealTable" Role="CartDealTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CartTable">
+              <PropertyRef Name="CartID" />
+            </Principal>
+            <Dependent Role="CartDealTable">
+              <PropertyRef Name="CartID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CartDealTable_StockDealTable">
+          <End Type="FoodManiaModel.StockDealTable" Role="StockDealTable" Multiplicity="1" />
+          <End Type="FoodManiaModel.CartDealTable" Role="CartDealTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockDealTable">
+              <PropertyRef Name="StockDealID" />
+            </Principal>
+            <Dependent Role="CartDealTable">
+              <PropertyRef Name="StockDealID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CartItemDetailTable_CartTable">
+          <End Type="FoodManiaModel.CartTable" Role="CartTable" Multiplicity="1" />
+          <End Type="FoodManiaModel.CartItemDetailTable" Role="CartItemDetailTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CartTable">
+              <PropertyRef Name="CartID" />
+            </Principal>
+            <Dependent Role="CartItemDetailTable">
+              <PropertyRef Name="CartID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CartItemDetailTable_StockItemTable">
+          <End Type="FoodManiaModel.StockItemTable" Role="StockItemTable" Multiplicity="1" />
+          <End Type="FoodManiaModel.CartItemDetailTable" Role="CartItemDetailTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockItemTable">
+              <PropertyRef Name="StockItemID" />
+            </Principal>
+            <Dependent Role="CartItemDetailTable">
+              <PropertyRef Name="StockItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CartTable_UserTable">
+          <End Type="FoodManiaModel.UserTable" Role="UserTable" Multiplicity="1" />
+          <End Type="FoodManiaModel.CartTable" Role="CartTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="CartTable">
+              <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2166,6 +2392,34 @@
                 <ScalarProperty Name="ReviewBy_UserID" ColumnName="ReviewBy_UserID" />
                 <ScalarProperty Name="StockItemID" ColumnName="StockItemID" />
                 <ScalarProperty Name="ItemReviewID" ColumnName="ItemReviewID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CartDealTables">
+            <EntityTypeMapping TypeName="FoodManiaModel.CartDealTable">
+              <MappingFragment StoreEntitySet="CartDealTable">
+                <ScalarProperty Name="Qty" ColumnName="Qty" />
+                <ScalarProperty Name="StockDealID" ColumnName="StockDealID" />
+                <ScalarProperty Name="CartID" ColumnName="CartID" />
+                <ScalarProperty Name="CartDealID" ColumnName="CartDealID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CartItemDetailTables">
+            <EntityTypeMapping TypeName="FoodManiaModel.CartItemDetailTable">
+              <MappingFragment StoreEntitySet="CartItemDetailTable">
+                <ScalarProperty Name="Qty" ColumnName="Qty" />
+                <ScalarProperty Name="StockItemID" ColumnName="StockItemID" />
+                <ScalarProperty Name="CartID" ColumnName="CartID" />
+                <ScalarProperty Name="CartItemID" ColumnName="CartItemID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CartTables">
+            <EntityTypeMapping TypeName="FoodManiaModel.CartTable">
+              <MappingFragment StoreEntitySet="CartTable">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="CartID" ColumnName="CartID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

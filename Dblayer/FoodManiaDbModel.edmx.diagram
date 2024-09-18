@@ -68,6 +68,14 @@
         <AssociationConnector Association="FoodManiaModel.FK_UserPasswordRecoveryTable_UserTable1" />
         <EntityTypeShape EntityType="FoodManiaModel.StockItemReviewTable" Width="1.5" PointX="11.25" PointY="16" />
         <AssociationConnector Association="FoodManiaModel.FK_StockItemReviewTable_StockItemTable" />
+        <EntityTypeShape EntityType="FoodManiaModel.CartDealTable" Width="1.5" PointX="16.25" PointY="20.125" />
+        <EntityTypeShape EntityType="FoodManiaModel.CartItemDetailTable" Width="1.5" PointX="13.5" PointY="15.75" />
+        <EntityTypeShape EntityType="FoodManiaModel.CartTable" Width="1.5" PointX="5.25" PointY="30.875" />
+        <AssociationConnector Association="FoodManiaModel.FK_CartDealTable_CartTable" />
+        <AssociationConnector Association="FoodManiaModel.FK_CartDealTable_StockDealTable" />
+        <AssociationConnector Association="FoodManiaModel.FK_CartItemDetailTable_CartTable" />
+        <AssociationConnector Association="FoodManiaModel.FK_CartItemDetailTable_StockItemTable" />
+        <AssociationConnector Association="FoodManiaModel.FK_CartTable_UserTable" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -321,6 +321,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\SettingController.cs" />
     <Compile Include="Controllers\StockController.cs" />
     <Compile Include="Controllers\TableReservationController.cs" />
@@ -332,6 +333,7 @@
     <Compile Include="HelperClass\EmailCls.cs" />
     <Compile Include="HelperClass\FileUpload.cs" />
     <Compile Include="Models\AccountRecoveryMV.cs" />
+    <Compile Include="Models\CartMV.cs" />
     <Compile Include="Models\CRU_ OrderTypeMV.cs" />
     <Compile Include="Models\CRU_ StockItemCategoryMV.cs" />
     <Compile Include="Models\CRU_GenderMV.cs" />
@@ -460,6 +462,7 @@
     <Folder Include="Content\ProfilePhoto\" />
     <Folder Include="Content\StockIngredientPhoto\" />
     <Folder Include="Content\StockItemPhoto\" />
+    <Folder Include="Views\Order\" />
     <Folder Include="Views\Recovery\" />
   </ItemGroup>
   <ItemGroup>

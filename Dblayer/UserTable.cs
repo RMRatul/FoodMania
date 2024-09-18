@@ -23,6 +23,7 @@ namespace Dblayer
             this.UserAddressTables = new HashSet<UserAddressTable>();
             this.BookingTblTables = new HashSet<BookingTblTable>();
             this.UserPasswordRecoveryTables = new HashSet<UserPasswordRecoveryTable>();
+            this.CartTables = new HashSet<CartTable>();
         }
     
         public int UserID { get; set; }
@@ -54,5 +55,7 @@ namespace Dblayer
         public virtual ICollection<BookingTblTable> BookingTblTables { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserPasswordRecoveryTable> UserPasswordRecoveryTables { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CartTable> CartTables { get; set; }
     }
 }

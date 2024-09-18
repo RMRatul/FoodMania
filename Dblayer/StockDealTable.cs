@@ -19,6 +19,7 @@ namespace Dblayer
         {
             this.OrderDealDetailTables = new HashSet<OrderDealDetailTable>();
             this.StockDealDetailTables = new HashSet<StockDealDetailTable>();
+            this.CartDealTables = new HashSet<CartDealTable>();
         }
     
         public int StockDealID { get; set; }
@@ -36,5 +37,7 @@ namespace Dblayer
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StockDealDetailTable> StockDealDetailTables { get; set; }
         public virtual VisibleStatusTable VisibleStatusTable { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CartDealTable> CartDealTables { get; set; }
     }
 }

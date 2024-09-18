@@ -448,6 +448,7 @@
     <Content Include="Views\Home\Partial_NewsLetter.cshtml" />
     <Content Include="Views\Home\OurMenu.cshtml" />
     <Content Include="Views\Home\ProductDetail.cshtml" />
+    <Content Include="Views\Order\ViewCart.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -462,7 +463,6 @@
     <Folder Include="Content\ProfilePhoto\" />
     <Folder Include="Content\StockIngredientPhoto\" />
     <Folder Include="Content\StockItemPhoto\" />
-    <Folder Include="Views\Order\" />
     <Folder Include="Views\Recovery\" />
   </ItemGroup>
   <ItemGroup>

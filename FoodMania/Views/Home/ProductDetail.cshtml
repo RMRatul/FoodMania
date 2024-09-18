@@ -97,7 +97,7 @@
                                 @foreach (var review in Model.Reviews)
                                 {
                                     <div class="box">
-                                        <img src="@Url.Content(review.UserPhotoPath)" alt="@review.ReviewBy_User" title="@review.ReviewBy_User" class="img-fluid" />
+                                        <img width="100" height="100"  src="@Url.Content(review.UserPhotoPath)" alt="@review.ReviewBy_User" title="@review.ReviewBy_User" class="img-fluid" />
                                         <div class="detail">
                                             <h2>@review.ReviewBy_User</h2>
                                             <span>@review.Review_Days days ago</span>

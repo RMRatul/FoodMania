@@ -33,17 +33,20 @@
                 <div class="dish owl-carousel">
                     @foreach (var item in Model.PopularDishes)
                     {
+
                         <div class="item">
                             <!-- Box Start -->
-                            <div class="box">
-                                <a href="#"><img src="@Url.Content(item.ItemPhotoPath)" alt="@item.StockItemTitle" title="@item.StockItemTitle" class="img-fluid" /></a>
-                                <div class="caption">
-                                    <h4>@item.StockItemTitle</h4>
-                                    <span>Order Type : @item.OrderType</span>
-                                    <p>@item.UnitPrice</p>
+                            
+                                <div class="box">
+                                    <a href="@Url.Content("~/Home/ProductDetail?itemid="+item.StockItemID)"><img src="@Url.Content(item.ItemPhotoPath)" alt="@item.StockItemTitle" title="@item.StockItemTitle" class="img-fluid" /></a>
+                                    <div class="caption">
+                                        <h4>@item.StockItemTitle</h4>
+                                        <span>Order Type : @item.OrderType</span>
+                                        <p>@item.UnitPrice</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <!-- Box End -->
+                                
+                                <!-- Box End -->
                         </div>
                     }
                 </div>
@@ -140,17 +143,19 @@
                                             {
                                                 <div class="col-md-6 col-sm-6 col-12">
                                                     <!-- Box Start -->
-                                                    <div class="box">
-                                                        <div class="image">
-                                                            <img src="@Url.Content(item.ItemPhotoPath)" alt="@item.StockItemTitle" title="@item.StockItemTitle" class="img-fluid" style="border-radius: 50%;" />
+                                                    <a href="@Url.Content("~/Home/ProductDetail?itemid="+item.StockItemID)">
+                                                        <div class="box">
+                                                            <div class="image">
+                                                                <img src="@Url.Content(item.ItemPhotoPath)" alt="@item.StockItemTitle" title="@item.StockItemTitle" class="img-fluid" style="border-radius: 50%;" />
+                                                            </div>
+                                                            <div class="caption">
+                                                                <h4>@item.StockItemTitle - @item.ItemSize </h4>
+                                                                <p class="des">Order Type : @item.OrderType   </p>
+                                                                <div class="price">PRICE : @item.UnitPrice PKR</div>
+                                                            </div>
                                                         </div>
-                                                        <div class="caption">
-                                                            <h4>@item.StockItemTitle - @item.ItemSize </h4>
-                                                            <p class="des">Order Type : @item.OrderType   </p>
-                                                            <div class="price">PRICE : @item.UnitPrice PKR</div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- Box End -->
+                                                        </a>
+                                                        <!-- Box End -->
                                                 </div>
                                             }
                                         </div>

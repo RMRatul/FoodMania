@@ -22,17 +22,20 @@ namespace FoodMania.Controllers
             int.TryParse(Convert.ToString(Session["UserID"]), out userid);
 
             var cart = Db.CartTables.Where(u => u.UserID == userid).FirstOrDefault();
-            var cartdetails = new List<CartMV>();
-            int cartid = cart != null ? cart.CartID : 0;
+            var shoppingcart = new ShoppingCartMV(userid);
+            var user = Db.UserTables.Find(userid);
+
+            int cartid = (cart != null ? cart.CartID : 0);
             foreach (var cart_item in Db.CartItemDetailTables.Where(i => i.CartID == cartid).ToList())
             {
                 var stockitem = Db.StockItemTables.Find(cart_item.StockItemID);
-                cartdetails.Add(new CartMV()
+                shoppingcart.Cart_Items.Add(new CartMV()
                 {
                     CartID = cart.CartID,
                     CartItemID = cart_item.CartItemID,
                     StockItemID = cart_item.StockItemID,
                     StockItemTitle = stockitem.StockItemTitle,
+                    StockItemCategory = stockitem.StockItemCategoryTable.StockItemCategory,
                     ItemPhotoPath = stockitem.ItemPhotoPath,
                     ItemSize = stockitem.ItemSize,
                     UnitPrice = stockitem.UnitPrice,
@@ -45,12 +48,13 @@ namespace FoodMania.Controllers
             foreach (var cart_deal in Db.CartDealTables.Where(d => d.CartID == cartid).ToList())
             {
                 var stockdeal = Db.StockDealTables.Find(cart_deal.StockDealID);
-                cartdetails.Add(new CartMV()
+                shoppingcart.Cart_Items.Add(new CartMV()
                 {
                     CartID = cart.CartID,
                     CartItemID = cart_deal.CartDealID,
                     StockItemID = cart_deal.StockDealID,
                     StockItemTitle = stockdeal.StockDealTitle,
+                    StockItemCategory = "Deal",
                     ItemPhotoPath = stockdeal.DealPhoto,
                     ItemSize = "Normal",
                     UnitPrice = stockdeal.DealPrice,
@@ -60,8 +64,10 @@ namespace FoodMania.Controllers
                 });
             }
 
+            ViewBag.UserAddressID = new SelectList(Db.UserAddressTables.Where(ua => ua.UserID == userid).ToList(), "UserAddressID", "FullAddress", "0");
+            ViewBag.OrderTypeID = new SelectList(Db.OrderTypeTables.ToList(), "OrderTypeID", "OrderType", "1");
 
-            return View(cartdetails);
+            return View(shoppingcart);
         }
         public ActionResult Cart_AddItem(int? itemid, int? qty, string itemtype, string return_url)
         {

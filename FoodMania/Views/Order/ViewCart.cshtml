@@ -1,4 +1,4 @@
-﻿@model IEnumerable<FoodMania.Models.CartMV>
+﻿@model FoodMania.Models.ShoppingCartMV
 @{
     ViewBag.Title = "Shopping Cart";
     double totalamount = 0;
@@ -24,12 +24,13 @@
             <div class="col-sm-12">
                 <ul class="nav nav-tabs">
                     <li class="nav-item"><a class="nav-link active" href="#tab-cart" data-toggle="tab"><span>1</span>shopping cart</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#tab-info" data-toggle="tab"><span>2</span>shopping info</a></li>
                 </ul>
                 <div class="bor"></div>
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab-cart">
                         <form method="post" enctype="multipart/form-data">
-                            <h2>You have <span>@(Model != null ? Model.Count() : 0) items</span> in your order.</h2>
+                            <h2>You have <span>@(Model != null ? Model.Cart_Items.Count() : 0) items</span> in your order.</h2>
                             <div class="table-responsive-md">
                                 <table class="table table-bordered">
                                     <thead>
@@ -43,7 +44,7 @@
                                     </thead>
                                     <tbody>
 
-                                        @foreach (var item in Model)
+                                        @foreach (var item in Model.Cart_Items)
                                         {
                                             totalamount = totalamount + item.ItemCost;
                                             <tr>
@@ -63,7 +64,7 @@
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td class="text-center">PKR @item.UnitPrice</td>
+                                                <td class="text-center">BDT @item.UnitPrice</td>
                                                 <td class="text-center">
                                                     <p class="qtypara">
                                                         <span id="minus1" class="minus" onclick="minusqty(@item.CartItemID,'@item.ItemType')"><i class="icofont icofont-minus"></i></span>
@@ -73,7 +74,7 @@
                                                         <input type="hidden" name="product_id" value="1" />
                                                     </p>
                                                 </td>
-                                                <td class="text-center">PKR @item.ItemCost</td>
+                                                <td class="text-center">BDT @item.ItemCost</td>
                                                 <td class="text-center">
                                                     <button type="button" onclick="deleteitem(@item.CartItemID,'@item.ItemType')"><i class="icofont icofont-close-line"></i></button>
                                                 </td>
@@ -98,6 +99,54 @@
                         </form>
                     </div>
 
+                    <div class="tab-pane col-md-12 col-12" id="tab-info">
+                        <div class="row">
+                            <div class="col-lg-5 col-md-6 col-12">
+                                <h6>Shopping Address & Order Type</h6>
+                                <form method="post" enctype="multipart/form-data">
+                                    <fieldset>
+                                        <div class="form-group">
+                                            @Html.DropDownList("OrderTypeID", null, "--Order Type--", htmlAttributes: new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.OrderTypeID, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.DropDownList("UserAddressID", null, "--Choose Address--", htmlAttributes: new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.UserAddressID, "", new { @class = "text-danger" })
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+
+                            <div class="col-lg-2 d-none d-lg-block"></div>
+                            <div class="col-lg-5 col-md-6 col-12">
+                                <h6>Contact information</h6>
+                                <form method="post" enctype="multipart/form-data">
+                                    <fieldset>
+                                        <div class="form-group">
+                                            <input name="firstname" value="@Model.User_info.FirstName" placeholder="First Name" id="input-firstname" class="form-control" type="text">
+                                        </div>
+                                        <div class="form-group">
+                                            <input name="lastname" value="@Model.User_info.LastName" placeholder="Last Name" id="input-lastname" class="form-control" type="text">
+                                        </div>
+                                        <div class="form-group">
+                                            <input name="email" value="@Model.User_info.EmailAddress" placeholder="Email" id="input-email" class="form-control" type="text">
+                                        </div>
+                                        <div class="form-group">
+                                            <input name="phone" value="@Model.User_info.ContactNo" placeholder="Phone Number" id="input-phone" class="form-control" type="text">
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                            <div class="col-md-12 col-12">
+                                <div class="buttons float-left">
+                                    <a href="#tab-cart" data-toggle="tab" class="btn btn-theme btn-md btn-wide">Shopping Cart</a>
+                                </div>
+                                <div class="buttons float-right">
+                                    <a href="#tab-payment" data-toggle="tab" class="btn btn-theme btn-md btn-wide">Continue</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

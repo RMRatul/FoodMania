@@ -361,6 +361,7 @@
     <Compile Include="Models\MenuCategoryMV.cs" />
     <Compile Include="Models\OrderTypeMV.cs" />
     <Compile Include="Models\Reg_UserMV.cs" />
+    <Compile Include="Models\ShoppingCartMV.cs" />
     <Compile Include="Models\StockCategoryMV.cs" />
     <Compile Include="Models\StockDealDetailMV.cs" />
     <Compile Include="Models\StockDealHeaderMV.cs" />

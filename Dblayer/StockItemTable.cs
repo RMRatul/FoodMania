@@ -21,6 +21,7 @@ namespace Dblayer
             this.StockItemIngredientTables = new HashSet<StockItemIngredientTable>();
             this.StockMenuItemTables = new HashSet<StockMenuItemTable>();
             this.StockDealDetailTables = new HashSet<StockDealDetailTable>();
+            this.StockItemReviewTables = new HashSet<StockItemReviewTable>();
         }
     
         public int StockItemID { get; set; }
@@ -45,5 +46,7 @@ namespace Dblayer
         public virtual ICollection<StockMenuItemTable> StockMenuItemTables { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StockDealDetailTable> StockDealDetailTables { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<StockItemReviewTable> StockItemReviewTables { get; set; }
     }
 }

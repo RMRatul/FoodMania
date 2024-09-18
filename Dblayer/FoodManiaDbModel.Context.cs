@@ -45,12 +45,13 @@ namespace Dblayer
         public virtual DbSet<VisibleStatusTable> VisibleStatusTables { get; set; }
         public virtual DbSet<UserDetailTable> UserDetailTables { get; set; }
         public virtual DbSet<AddressTypeTable> AddressTypeTables { get; set; }
-        public virtual DbSet<UserPasswordRecoveryTable> UserPasswordRecoveryTables { get; set; }
         public virtual DbSet<UserTable> UserTables { get; set; }
         public virtual DbSet<StockDealDetailTable> StockDealDetailTables { get; set; }
         public virtual DbSet<StockDealTable> StockDealTables { get; set; }
         public virtual DbSet<BookingStatusTable> BookingStatusTables { get; set; }
         public virtual DbSet<BookingTblTable> BookingTblTables { get; set; }
         public virtual DbSet<SubscribeEmailTable> SubscribeEmailTables { get; set; }
+        public virtual DbSet<UserPasswordRecoveryTable> UserPasswordRecoveryTables { get; set; }
+        public virtual DbSet<StockItemReviewTable> StockItemReviewTables { get; set; }
     }
 }

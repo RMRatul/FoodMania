@@ -352,7 +352,9 @@
     <Compile Include="Models\ForgotPasswordMV.cs" />
     <Compile Include="Models\GenderMV.cs" />
     <Compile Include="Models\HomeMV.cs" />
+    <Compile Include="Models\ItemDetailMV.cs" />
     <Compile Include="Models\ItemMV.cs" />
+    <Compile Include="Models\ItemReviewMV.cs" />
     <Compile Include="Models\LoginMV.cs" />
     <Compile Include="Models\MenuCategoryMV.cs" />
     <Compile Include="Models\OrderTypeMV.cs" />
@@ -442,6 +444,8 @@
     <Content Include="Views\TableReservation\BookingTables.cshtml" />
     <Content Include="Views\Home\AllItems.cshtml" />
     <Content Include="Views\Home\Partial_NewsLetter.cshtml" />
+    <Content Include="Views\Home\OurMenu.cshtml" />
+    <Content Include="Views\Home\ProductDetail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

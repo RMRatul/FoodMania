@@ -243,10 +243,31 @@
     int.TryParse(Convert.ToString(Session["UserID"]), out userid);
     int.TryParse(Convert.ToString(Session["UserTypeID"]), out usertypeid);
     Html.RenderPartial("~/Views/TableReservation/Partial_TableReservation.cshtml", new FoodMania.Models.CRU_TableReservationMV(usertypeid, userid));
-
-
-    <!-- Reservation End  -->
-    <!-- Newsletter Start -->
-    Html.RenderPartial("~/Views/Home/Partial_NewsLetter.cshtml");
-    <!-- Newsletter End -->
 }
+<!-- Reservation End  -->
+<!-- Newsletter Start -->
+<div id="newsletter">
+    <div class="container">
+        <div id="subscribe">
+            <!-- Subscribe Form -->
+            <form class="form-horizontal" name="subscribe">
+                <div class="row">
+                    <div class="col-sm-6 col-md-7">
+                        <div class="input-group">
+                            <span class="news">newsletter</span>
+                            <p>For upcomming news subscription please enter your email address here.</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-5 form-group">
+                        <div class="input-group">
+                            <input value="" name="subscribe_email" id="subscribe_email" placeholder="Email" type="text">
+                            <button class="btn btn-news" type="submit" value="submit">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!-- Subscribe Form -->
+        </div>
+    </div>
+</div>
+<!-- Newsletter End -->

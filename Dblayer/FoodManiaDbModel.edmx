@@ -155,6 +155,17 @@
           <Property Name="StockItemIngredientTitle" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="CreatedBy_UserID" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="StockItemReviewTable">
+          <Key>
+            <PropertyRef Name="ItemReviewID" />
+          </Key>
+          <Property Name="ItemReviewID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StockItemID" Type="int" Nullable="false" />
+          <Property Name="ReviewBy_UserID" Type="int" Nullable="false" />
+          <Property Name="ReviewDateTime" Type="datetime" Nullable="false" />
+          <Property Name="Rating" Type="int" Nullable="false" />
+          <Property Name="ReviewDetails" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
         <EntityType Name="StockItemTable">
           <Key>
             <PropertyRef Name="StockItemID" />
@@ -490,6 +501,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_StockItemReviewTable_StockItemTable">
+          <End Role="StockItemTable" Type="Self.StockItemTable" Multiplicity="1" />
+          <End Role="StockItemReviewTable" Type="Self.StockItemReviewTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockItemTable">
+              <PropertyRef Name="StockItemID" />
+            </Principal>
+            <Dependent Role="StockItemReviewTable">
+              <PropertyRef Name="StockItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_StockItemTable_OrderTypeTable">
           <End Role="OrderTypeTable" Type="Self.OrderTypeTable" Multiplicity="1" />
           <End Role="StockItemTable" Type="Self.StockItemTable" Multiplicity="*" />
@@ -646,7 +669,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_UserPasswordRecoveryTable_UserTable">
+        <Association Name="FK_UserPasswordRecoveryTable_UserTable1">
           <End Role="UserTable" Type="Self.UserTable" Multiplicity="0..1" />
           <End Role="UserPasswordRecoveryTable" Type="Self.UserPasswordRecoveryTable" Multiplicity="*" />
           <ReferentialConstraint>
@@ -710,6 +733,7 @@
           <EntitySet Name="StockDealTable" EntityType="Self.StockDealTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StockItemCategoryTable" EntityType="Self.StockItemCategoryTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StockItemIngredientTable" EntityType="Self.StockItemIngredientTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StockItemReviewTable" EntityType="Self.StockItemReviewTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StockItemTable" EntityType="Self.StockItemTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StockMenuCategoryTable" EntityType="Self.StockMenuCategoryTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StockMenuItemTable" EntityType="Self.StockMenuItemTable" Schema="dbo" store:Type="Tables" />
@@ -790,6 +814,10 @@
             <End Role="StockItemTable" EntitySet="StockItemTable" />
             <End Role="StockItemIngredientTable" EntitySet="StockItemIngredientTable" />
           </AssociationSet>
+          <AssociationSet Name="FK_StockItemReviewTable_StockItemTable" Association="Self.FK_StockItemReviewTable_StockItemTable">
+            <End Role="StockItemTable" EntitySet="StockItemTable" />
+            <End Role="StockItemReviewTable" EntitySet="StockItemReviewTable" />
+          </AssociationSet>
           <AssociationSet Name="FK_StockItemTable_OrderTypeTable" Association="Self.FK_StockItemTable_OrderTypeTable">
             <End Role="OrderTypeTable" EntitySet="OrderTypeTable" />
             <End Role="StockItemTable" EntitySet="StockItemTable" />
@@ -842,7 +870,7 @@
             <End Role="UserTable" EntitySet="UserTable" />
             <End Role="UserDetailTable" EntitySet="UserDetailTable" />
           </AssociationSet>
-          <AssociationSet Name="FK_UserPasswordRecoveryTable_UserTable" Association="Self.FK_UserPasswordRecoveryTable_UserTable">
+          <AssociationSet Name="FK_UserPasswordRecoveryTable_UserTable1" Association="Self.FK_UserPasswordRecoveryTable_UserTable1">
             <End Role="UserTable" EntitySet="UserTable" />
             <End Role="UserPasswordRecoveryTable" EntitySet="UserPasswordRecoveryTable" />
           </AssociationSet>
@@ -997,6 +1025,7 @@
           <NavigationProperty Name="VisibleStatusTable" Relationship="Self.FK_StockItemTable_VisibleStatusTable" FromRole="StockItemTable" ToRole="VisibleStatusTable" />
           <NavigationProperty Name="StockMenuItemTables" Relationship="Self.FK_StockMenuItemTable_StockItemTable" FromRole="StockItemTable" ToRole="StockMenuItemTable" />
           <NavigationProperty Name="StockDealDetailTables" Relationship="FoodManiaModel.FK_StockDealDetailTable_StockItemTable" FromRole="StockItemTable" ToRole="StockDealDetailTable" />
+          <NavigationProperty Name="StockItemReviewTables" Relationship="FoodManiaModel.FK_StockItemReviewTable_StockItemTable" FromRole="StockItemTable" ToRole="StockItemReviewTable" />
         </EntityType>
         <EntityType Name="StockMenuCategoryTable">
           <Key>
@@ -1380,7 +1409,6 @@
             <End Role="AddressTypeTable" EntitySet="AddressTypeTables" />
             <End Role="UserAddressTable" EntitySet="UserAddressTables" />
           </AssociationSet>
-          <EntitySet Name="UserPasswordRecoveryTables" EntityType="FoodManiaModel.UserPasswordRecoveryTable" />
           <EntitySet Name="UserTables" EntityType="FoodManiaModel.UserTable" />
           <AssociationSet Name="FK_UserTable_GenderTable" Association="FoodManiaModel.FK_UserTable_GenderTable">
             <End Role="GenderTable" EntitySet="GenderTables" />
@@ -1405,10 +1433,6 @@
           <AssociationSet Name="FK_UserDetailTable_UserTable" Association="FoodManiaModel.FK_UserDetailTable_UserTable">
             <End Role="UserTable" EntitySet="UserTables" />
             <End Role="UserDetailTable" EntitySet="UserDetailTables" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UserPasswordRecoveryTable_UserTable" Association="FoodManiaModel.FK_UserPasswordRecoveryTable_UserTable">
-            <End Role="UserTable" EntitySet="UserTables" />
-            <End Role="UserPasswordRecoveryTable" EntitySet="UserPasswordRecoveryTables" />
           </AssociationSet>
           <AssociationSet Name="FK_UserTable_UserStatusTable" Association="FoodManiaModel.FK_UserTable_UserStatusTable">
             <End Role="UserStatusTable" EntitySet="UserStatusTables" />
@@ -1451,6 +1475,16 @@
             <End Role="BookingTblTable" EntitySet="BookingTblTables" />
           </AssociationSet>
           <EntitySet Name="SubscribeEmailTables" EntityType="FoodManiaModel.SubscribeEmailTable" />
+          <EntitySet Name="UserPasswordRecoveryTables" EntityType="FoodManiaModel.UserPasswordRecoveryTable" />
+          <AssociationSet Name="FK_UserPasswordRecoveryTable_UserTable1" Association="FoodManiaModel.FK_UserPasswordRecoveryTable_UserTable1">
+            <End Role="UserTable" EntitySet="UserTables" />
+            <End Role="UserPasswordRecoveryTable" EntitySet="UserPasswordRecoveryTables" />
+          </AssociationSet>
+          <EntitySet Name="StockItemReviewTables" EntityType="FoodManiaModel.StockItemReviewTable" />
+          <AssociationSet Name="FK_StockItemReviewTable_StockItemTable" Association="FoodManiaModel.FK_StockItemReviewTable_StockItemTable">
+            <End Role="StockItemTable" EntitySet="StockItemTables" />
+            <End Role="StockItemReviewTable" EntitySet="StockItemReviewTables" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="UserDetailTable">
           <Key>
@@ -1488,18 +1522,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="UserPasswordRecoveryTable">
-          <Key>
-            <PropertyRef Name="UserPasswordRecoveryID" />
-          </Key>
-          <Property Name="UserPasswordRecoveryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserID" Type="Int32" />
-          <Property Name="RecoveryCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="RecoveryCodeExpiryDateTime" Type="DateTime" Precision="3" />
-          <Property Name="RecoveryStatus" Type="Byte" />
-          <Property Name="OldPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="UserTable" Relationship="FoodManiaModel.FK_UserPasswordRecoveryTable_UserTable" FromRole="UserPasswordRecoveryTable" ToRole="UserTable" />
-        </EntityType>
         <EntityType Name="UserTable">
           <Key>
             <PropertyRef Name="UserID" />
@@ -1522,10 +1544,10 @@
           <NavigationProperty Name="TableReservationTables1" Relationship="FoodManiaModel.FK_TableReservationTable_UserTable1" FromRole="UserTable" ToRole="TableReservationTable" />
           <NavigationProperty Name="UserAddressTables" Relationship="FoodManiaModel.FK_UserAddressTable_UserTable" FromRole="UserTable" ToRole="UserAddressTable" />
           <NavigationProperty Name="UserDetailTable" Relationship="FoodManiaModel.FK_UserDetailTable_UserTable" FromRole="UserTable" ToRole="UserDetailTable" />
-          <NavigationProperty Name="UserPasswordRecoveryTables" Relationship="FoodManiaModel.FK_UserPasswordRecoveryTable_UserTable" FromRole="UserTable" ToRole="UserPasswordRecoveryTable" />
           <NavigationProperty Name="UserStatusTable" Relationship="FoodManiaModel.FK_UserTable_UserStatusTable" FromRole="UserTable" ToRole="UserStatusTable" />
           <NavigationProperty Name="UserTypeTable" Relationship="FoodManiaModel.FK_UserTable_UserTypeTable" FromRole="UserTable" ToRole="UserTypeTable" />
           <NavigationProperty Name="BookingTblTables" Relationship="FoodManiaModel.FK_BookingTblTable_UserTable" FromRole="UserTable" ToRole="BookingTblTable" />
+          <NavigationProperty Name="UserPasswordRecoveryTables" Relationship="FoodManiaModel.FK_UserPasswordRecoveryTable_UserTable1" FromRole="UserTable" ToRole="UserPasswordRecoveryTable" />
         </EntityType>
         <Association Name="FK_UserTable_GenderTable">
           <End Type="FoodManiaModel.GenderTable" Role="GenderTable" Multiplicity="1" />
@@ -1596,18 +1618,6 @@
             </Principal>
             <Dependent Role="UserDetailTable">
               <PropertyRef Name="UserDetailID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_UserPasswordRecoveryTable_UserTable">
-          <End Type="FoodManiaModel.UserTable" Role="UserTable" Multiplicity="0..1" />
-          <End Type="FoodManiaModel.UserPasswordRecoveryTable" Role="UserPasswordRecoveryTable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserTable">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="UserPasswordRecoveryTable">
-              <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1785,6 +1795,54 @@
           <Property Name="SubscribeEmailAddress" Type="String" Nullable="false" MaxLength="350" FixedLength="false" Unicode="false" />
           <Property Name="SubscribeStatus" Type="Boolean" Nullable="false" />
         </EntityType>
+        <EntityType Name="UserPasswordRecoveryTable">
+          <Key>
+            <PropertyRef Name="UserPasswordRecoveryID" />
+          </Key>
+          <Property Name="UserPasswordRecoveryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="RecoveryCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="RecoveryCodeExpiryDateTime" Type="DateTime" Precision="3" />
+          <Property Name="RecoveryStatus" Type="Byte" />
+          <Property Name="OldPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UserTable" Relationship="FoodManiaModel.FK_UserPasswordRecoveryTable_UserTable1" FromRole="UserPasswordRecoveryTable" ToRole="UserTable" />
+        </EntityType>
+        <Association Name="FK_UserPasswordRecoveryTable_UserTable1">
+          <End Type="FoodManiaModel.UserTable" Role="UserTable" Multiplicity="0..1" />
+          <End Type="FoodManiaModel.UserPasswordRecoveryTable" Role="UserPasswordRecoveryTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UserPasswordRecoveryTable">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="StockItemReviewTable">
+          <Key>
+            <PropertyRef Name="ItemReviewID" />
+          </Key>
+          <Property Name="ItemReviewID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StockItemID" Type="Int32" Nullable="false" />
+          <Property Name="ReviewBy_UserID" Type="Int32" Nullable="false" />
+          <Property Name="ReviewDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Rating" Type="Int32" Nullable="false" />
+          <Property Name="ReviewDetails" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="StockItemTable" Relationship="FoodManiaModel.FK_StockItemReviewTable_StockItemTable" FromRole="StockItemReviewTable" ToRole="StockItemTable" />
+        </EntityType>
+        <Association Name="FK_StockItemReviewTable_StockItemTable">
+          <End Type="FoodManiaModel.StockItemTable" Role="StockItemTable" Multiplicity="1" />
+          <End Type="FoodManiaModel.StockItemReviewTable" Role="StockItemReviewTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockItemTable">
+              <PropertyRef Name="StockItemID" />
+            </Principal>
+            <Dependent Role="StockItemReviewTable">
+              <PropertyRef Name="StockItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2007,18 +2065,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="UserPasswordRecoveryTables">
-            <EntityTypeMapping TypeName="FoodManiaModel.UserPasswordRecoveryTable">
-              <MappingFragment StoreEntitySet="UserPasswordRecoveryTable">
-                <ScalarProperty Name="OldPassword" ColumnName="OldPassword" />
-                <ScalarProperty Name="RecoveryStatus" ColumnName="RecoveryStatus" />
-                <ScalarProperty Name="RecoveryCodeExpiryDateTime" ColumnName="RecoveryCodeExpiryDateTime" />
-                <ScalarProperty Name="RecoveryCode" ColumnName="RecoveryCode" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="UserPasswordRecoveryID" ColumnName="UserPasswordRecoveryID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="UserTables">
             <EntityTypeMapping TypeName="FoodManiaModel.UserTable">
               <MappingFragment StoreEntitySet="UserTable">
@@ -2096,6 +2142,30 @@
                 <ScalarProperty Name="SubscribeStatus" ColumnName="SubscribeStatus" />
                 <ScalarProperty Name="SubscribeEmailAddress" ColumnName="SubscribeEmailAddress" />
                 <ScalarProperty Name="SubscribeEmailID" ColumnName="SubscribeEmailID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserPasswordRecoveryTables">
+            <EntityTypeMapping TypeName="FoodManiaModel.UserPasswordRecoveryTable">
+              <MappingFragment StoreEntitySet="UserPasswordRecoveryTable">
+                <ScalarProperty Name="OldPassword" ColumnName="OldPassword" />
+                <ScalarProperty Name="RecoveryStatus" ColumnName="RecoveryStatus" />
+                <ScalarProperty Name="RecoveryCodeExpiryDateTime" ColumnName="RecoveryCodeExpiryDateTime" />
+                <ScalarProperty Name="RecoveryCode" ColumnName="RecoveryCode" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="UserPasswordRecoveryID" ColumnName="UserPasswordRecoveryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockItemReviewTables">
+            <EntityTypeMapping TypeName="FoodManiaModel.StockItemReviewTable">
+              <MappingFragment StoreEntitySet="StockItemReviewTable">
+                <ScalarProperty Name="ReviewDetails" ColumnName="ReviewDetails" />
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+                <ScalarProperty Name="ReviewDateTime" ColumnName="ReviewDateTime" />
+                <ScalarProperty Name="ReviewBy_UserID" ColumnName="ReviewBy_UserID" />
+                <ScalarProperty Name="StockItemID" ColumnName="StockItemID" />
+                <ScalarProperty Name="ItemReviewID" ColumnName="ItemReviewID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

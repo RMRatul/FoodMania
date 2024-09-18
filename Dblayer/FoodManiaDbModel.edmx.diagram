@@ -43,7 +43,6 @@
         <EntityTypeShape EntityType="FoodManiaModel.UserDetailTable" Width="1.5" PointX="5.25" PointY="20.25" />
         <EntityTypeShape EntityType="FoodManiaModel.AddressTypeTable" Width="1.5" PointX="13.375" PointY="0.875" />
         <AssociationConnector Association="FoodManiaModel.FK_UserAddressTable_UserAddressTable" />
-        <EntityTypeShape EntityType="FoodManiaModel.UserPasswordRecoveryTable" Width="1.5" PointX="5.25" PointY="24.625" />
         <EntityTypeShape EntityType="FoodManiaModel.UserTable" Width="1.5" PointX="3" PointY="11.125" />
         <AssociationConnector Association="FoodManiaModel.FK_UserTable_GenderTable" />
         <AssociationConnector Association="FoodManiaModel.FK_OrderTable_UserTable" />
@@ -51,7 +50,6 @@
         <AssociationConnector Association="FoodManiaModel.FK_TableReservationTable_UserTable1" />
         <AssociationConnector Association="FoodManiaModel.FK_UserAddressTable_UserTable" />
         <AssociationConnector Association="FoodManiaModel.FK_UserDetailTable_UserTable" />
-        <AssociationConnector Association="FoodManiaModel.FK_UserPasswordRecoveryTable_UserTable" />
         <AssociationConnector Association="FoodManiaModel.FK_UserTable_UserStatusTable" />
         <AssociationConnector Association="FoodManiaModel.FK_UserTable_UserTypeTable" />
         <EntityTypeShape EntityType="FoodManiaModel.StockDealDetailTable" Width="1.5" PointX="13.5" PointY="5.25" />
@@ -66,6 +64,10 @@
         <AssociationConnector Association="FoodManiaModel.FK_BookingTblTable_BookingStatusTable" />
         <AssociationConnector Association="FoodManiaModel.FK_BookingTblTable_UserTable" />
         <EntityTypeShape EntityType="FoodManiaModel.SubscribeEmailTable" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="FoodManiaModel.UserPasswordRecoveryTable" Width="1.5" PointX="5.25" PointY="24.625" />
+        <AssociationConnector Association="FoodManiaModel.FK_UserPasswordRecoveryTable_UserTable1" />
+        <EntityTypeShape EntityType="FoodManiaModel.StockItemReviewTable" Width="1.5" PointX="11.25" PointY="16" />
+        <AssociationConnector Association="FoodManiaModel.FK_StockItemReviewTable_StockItemTable" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

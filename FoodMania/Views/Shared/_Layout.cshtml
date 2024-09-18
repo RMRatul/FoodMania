@@ -21,7 +21,7 @@
         <link type="image/x-icon" rel="shortcut icon" href="favicon.png" />
         <title>PIZZA - Restaurant and Drinks</title>
         <meta name="description" content="Restaurant, food and Drinks HTML5 website template is Modern, Clean and Professional site template. Prefect for RESTAURANT, Bakery, Cafe, Bar, Catering, food business and for personal chef portfolio website.">
-
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <!-- Bootstrap stylesheet -->
         <link href="~/Content/Template/assets/libs/bootstrap-4.5.0/css/bootstrap.min.css" rel="stylesheet">
         <!-- icofont -->
@@ -128,7 +128,7 @@
                                         <ul class="nav navbar-nav">
                                             <li class="nav-item"><a href="@Url.Content("~/Home/Index")">HOME</a></li>
                                             <li class="nav-item"><a href="#">about us</a></li>
-                                            <li class="nav-item"><a href="#">Our Menu</a></li>
+                                            <li class="nav-item"><a href="@Url.Content("~/Home/OurMenu")">OurMenu</a></li>
                                             <li class="nav-item"><a href="@Url.Content("~/Home/AllItems")">Our Shop</a></li>
                                             @if (userid > 0)  //admin
                                             {

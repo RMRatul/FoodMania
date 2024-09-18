@@ -21,8 +21,8 @@ namespace Dblayer
             this.TableReservationTables = new HashSet<TableReservationTable>();
             this.TableReservationTables1 = new HashSet<TableReservationTable>();
             this.UserAddressTables = new HashSet<UserAddressTable>();
-            this.UserPasswordRecoveryTables = new HashSet<UserPasswordRecoveryTable>();
             this.BookingTblTables = new HashSet<BookingTblTable>();
+            this.UserPasswordRecoveryTables = new HashSet<UserPasswordRecoveryTable>();
         }
     
         public int UserID { get; set; }
@@ -48,11 +48,11 @@ namespace Dblayer
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserAddressTable> UserAddressTables { get; set; }
         public virtual UserDetailTable UserDetailTable { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UserPasswordRecoveryTable> UserPasswordRecoveryTables { get; set; }
         public virtual UserStatusTable UserStatusTable { get; set; }
         public virtual UserTypeTable UserTypeTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BookingTblTable> BookingTblTables { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserPasswordRecoveryTable> UserPasswordRecoveryTables { get; set; }
     }
 }

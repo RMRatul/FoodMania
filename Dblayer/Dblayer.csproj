@@ -111,6 +111,9 @@
     <Compile Include="StockItemIngredientTable.cs">
       <DependentUpon>FoodManiaDbModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="StockItemReviewTable.cs">
+      <DependentUpon>FoodManiaDbModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="StockItemTable.cs">
       <DependentUpon>FoodManiaDbModel.tt</DependentUpon>
     </Compile>
